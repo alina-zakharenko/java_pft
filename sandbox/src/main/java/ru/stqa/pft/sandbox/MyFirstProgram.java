@@ -4,8 +4,8 @@ public class MyFirstProgram {
 
   public static void main(String[] args) {
     hello(" world");
+    hello(" user");
     hello(" Alina");
-    hello(" Mama");
 
 
     Square s = new Square(5);
@@ -17,8 +17,6 @@ public class MyFirstProgram {
     // r.b = 6;
     System.out.println("Площадь прямоугольника со сторонами " + r.a + " и " + r.b + " = " + area(r));
 
-//    Point p = new Point(2, 3 );
-//    System.out.println("..... " + r.a + " и " + r.b + " = " + area(r));
   }
 
   public static void hello(String text) {
