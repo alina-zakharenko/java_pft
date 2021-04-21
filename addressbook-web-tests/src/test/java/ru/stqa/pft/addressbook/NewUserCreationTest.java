@@ -6,10 +6,10 @@ public class NewUserCreationTest extends TestBase {
 
   @Test
   public void testNewUserCreation() throws Exception {
-    GotoCreateUserPage();
+    gotoCreateUserPage();
     fillUserInfo(new UserData("Harry", "Potter", "harrypotter@magic.com"));
     submitInfo();
     gotoHomePage();
   }
-  
+
 }

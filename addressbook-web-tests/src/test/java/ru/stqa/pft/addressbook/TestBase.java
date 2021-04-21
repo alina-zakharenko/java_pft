@@ -109,7 +109,7 @@ public class TestBase {
     wd.findElement(By.name("email")).sendKeys(userData.getEmail());
   }
 
-  protected void GotoCreateUserPage() {
+  protected void gotoCreateUserPage() {
     wd.findElement(By.linkText("add new")).click();
   }
 }
