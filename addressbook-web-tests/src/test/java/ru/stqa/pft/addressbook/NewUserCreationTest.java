@@ -3,11 +3,15 @@ package ru.stqa.pft.addressbook;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.*;
+
+import static org.testng.Assert.*;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class GroupCreationTests {
+public class NewUserCreationTest {
   private WebDriver wd;
+
 
   @BeforeMethod(alwaysRun = true) //метод инициализации фикстуры
   public void setUp() throws Exception {
@@ -18,13 +22,13 @@ public class GroupCreationTests {
   }
 
   @Test
-  public void testGroupCreation() throws Exception {
-    gotoGroupPage();
-    initGroupCreation();
-    fillGroupForm(new GroupData("test1", "test2", "test3"));
-    submitGroupCreation();
-    returnToGroupPage();
+  public void testNewUserCreation() throws Exception {
+    GotoCreateUserPage();
+    fillUserInfo(new UserData("Harry", "Potter", "harrypotter@magic.com"));
+    submitInfo();
+    gotoHomePage();
   }
+
 
   private void login(String username, String password) {
     wd.findElement(By.name("user")).clear();
@@ -35,32 +39,28 @@ public class GroupCreationTests {
     wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
-  private void returnToGroupPage() {
-    wd.findElement(By.linkText("group page")).click();
+  private void gotoHomePage() {
+    wd.findElement(By.xpath("//div[@id='header']/a")).click();
   }
 
-  private void submitGroupCreation() {
-    wd.findElement(By.name("submit")).click();
+  private void submitInfo() {
+    wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
   }
 
-  private void fillGroupForm(GroupData groupData) {
-    wd.findElement(By.name("group_name")).click();
-    wd.findElement(By.name("group_name")).clear();
-    wd.findElement(By.name("group_name")).sendKeys(groupData.getName());
-    wd.findElement(By.name("group_header")).click();
-    wd.findElement(By.name("group_header")).clear();
-    wd.findElement(By.name("group_header")).sendKeys(groupData.getHeader());
-    wd.findElement(By.name("group_footer")).click();
-    wd.findElement(By.name("group_footer")).clear();
-    wd.findElement(By.name("group_footer")).sendKeys(groupData.getFooter());
+  private void fillUserInfo(UserData userData) {
+    wd.findElement(By.name("firstname")).click();
+    wd.findElement(By.name("firstname")).clear();
+    wd.findElement(By.name("firstname")).sendKeys(userData.getFirstname());
+    wd.findElement(By.name("lastname")).click();
+    wd.findElement(By.name("lastname")).clear();
+    wd.findElement(By.name("lastname")).sendKeys(userData.getLastname());
+    wd.findElement(By.name("email")).click();
+    wd.findElement(By.name("email")).clear();
+    wd.findElement(By.name("email")).sendKeys(userData.getEmail());
   }
 
-  private void initGroupCreation() {
-    wd.findElement(By.name("new")).click();
-  }
-
-  private void gotoGroupPage() {
-    wd.findElement(By.linkText("groups")).click();
+  private void GotoCreateUserPage() {
+    wd.findElement(By.linkText("add new")).click();
   }
 
   @AfterMethod(alwaysRun = true) //метод завершения фикстуры
