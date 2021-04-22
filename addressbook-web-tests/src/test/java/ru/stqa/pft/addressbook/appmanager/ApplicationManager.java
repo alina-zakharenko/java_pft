@@ -13,6 +13,7 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
+  private UserHelper userHelper;
 
   public void init() {
     wd = new FirefoxDriver();
@@ -22,6 +23,7 @@ public class ApplicationManager {
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
     sessionHelper.login("admin", "secret");
+    userHelper = new UserHelper(wd);
   }
 
   public void stop() {
@@ -35,6 +37,10 @@ public class ApplicationManager {
 
   public NavigationHelper getNavigationHelper() {
     return navigationHelper;
+  }
+
+  public UserHelper getUserHelper() {
+    return userHelper;
   }
 
 
@@ -61,20 +67,5 @@ public class ApplicationManager {
     wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
   }
 
-  public void fillUserInfo(UserData userData) {
-    wd.findElement(By.name("firstname")).click();
-    wd.findElement(By.name("firstname")).clear();
-    wd.findElement(By.name("firstname")).sendKeys(userData.getFirstname());
-    wd.findElement(By.name("lastname")).click();
-    wd.findElement(By.name("lastname")).clear();
-    wd.findElement(By.name("lastname")).sendKeys(userData.getLastname());
-    wd.findElement(By.name("email")).click();
-    wd.findElement(By.name("email")).clear();
-    wd.findElement(By.name("email")).sendKeys(userData.getEmail());
-  }
-
-  public void gotoCreateUserPage() {
-    wd.findElement(By.linkText("add new")).click();
-  }
 
 }

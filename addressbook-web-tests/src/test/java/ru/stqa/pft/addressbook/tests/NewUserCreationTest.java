@@ -8,8 +8,14 @@ public class NewUserCreationTest extends TestBase {
 
   @Test
   public void testNewUserCreation() throws Exception {
-    applicationManager.gotoCreateUserPage();
-    applicationManager.fillUserInfo(new UserData("Harry", "Potter", "harrypotter@magic.com"));
+    applicationManager.getUserHelper().gotoCreateUserPage();
+    applicationManager.getUserHelper().fillUserInfo(new UserData("Harry", "Potter", "harrypotter@magic.com",""));
+    applicationManager.submitInfo();
+    applicationManager.getUserHelper().gotoCreateUserPage();
+    applicationManager.getUserHelper().fillUserInfo(new UserData("Hermine", "Granger", "herminegranger@magic.com", ""));
+    applicationManager.submitInfo();
+    applicationManager.getUserHelper().gotoCreateUserPage();
+    applicationManager.getUserHelper().fillUserInfo(new UserData("Ron", "Weasley", "ronWeasley@magic.com", ""));
     applicationManager.submitInfo();
     applicationManager.gotoHomePage();
   }

@@ -4,11 +4,13 @@ public class UserData {
   private final String firstname;
   private final String lastname;
   private final String email;
+  private final String company;
 
-  public UserData(String firstname, String lastname, String email) {
+  public UserData(String firstname, String lastname, String email, String company) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
+    this.company = company;
   }
 
   public String getFirstname() {
@@ -21,5 +23,9 @@ public class UserData {
 
   public String getEmail() {
     return email;
+  }
+
+  public String getCompany() {
+    return company;
   }
 }
