@@ -1,8 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.UserData;
 
@@ -26,6 +24,25 @@ public class ApplicationManager {
     sessionHelper.login("admin", "secret");
   }
 
+  public void stop() {
+    wd.quit();
+  }
+
+
+  public GroupHelper getGroupHelper() {
+    return groupHelper;
+  }
+
+  public NavigationHelper getNavigationHelper() {
+    return navigationHelper;
+  }
+
+
+  /**
+   *
+   */
+
+
   private void login(String username, String password) {
     wd.findElement(By.name("user")).clear();
     wd.findElement(By.name("user")).sendKeys(username);
@@ -35,27 +52,6 @@ public class ApplicationManager {
     wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
-  public void stop() {
-    wd.quit();
-  }
-
-  private boolean isElementPresent(By by) {
-    try {
-      wd.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
-
-  private boolean isAlertPresent() {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
 
   public void gotoHomePage() {
     wd.findElement(By.xpath("//div[@id='header']/a")).click();
@@ -81,11 +77,4 @@ public class ApplicationManager {
     wd.findElement(By.linkText("add new")).click();
   }
 
-  public GroupHelper getGroupHelper() {
-    return groupHelper;
-  }
-
-  public NavigationHelper getNavigationHelper() {
-    return navigationHelper;
-  }
 }
