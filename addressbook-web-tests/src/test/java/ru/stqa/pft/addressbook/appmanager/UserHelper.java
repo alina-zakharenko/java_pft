@@ -11,15 +11,15 @@ public class UserHelper extends HelperBase {
   }
 
   public void fillUserInfo(UserData userData) {
-    wd.findElement(By.name("firstname")).click();
-    wd.findElement(By.name("firstname")).clear();
-    wd.findElement(By.name("firstname")).sendKeys(userData.getFirstname());
-    wd.findElement(By.name("lastname")).click();
-    wd.findElement(By.name("lastname")).clear();
-    wd.findElement(By.name("lastname")).sendKeys(userData.getLastname());
-    wd.findElement(By.name("email")).click();
-    wd.findElement(By.name("email")).clear();
-    wd.findElement(By.name("email")).sendKeys(userData.getEmail());
+    typeUserData(By.name("firstname"), userData.getFirstname());
+    typeUserData(By.name("lastname"), userData.getLastname());
+    typeUserData(By.name("email"), userData.getEmail());
+  }
+
+  private void typeUserData(By locator, String text) {
+    wd.findElement(locator).click();
+    wd.findElement(locator).clear();
+    wd.findElement(locator).sendKeys(text);
   }
 
   public void gotoCreateUserPage() {
