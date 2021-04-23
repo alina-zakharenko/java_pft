@@ -31,13 +31,33 @@ public class UserHelper extends HelperBase {
   }
 
   public void deleteUser() {
-    click(By.name("selected[]"));
-    click(By.cssSelector(".left:nth-child(8) > input"));
+    selectUser();
+    clickDeleteUserButton();
+    getAccept();
+  }
+
+  private void getAccept() {
     wd.switchTo().alert().accept();
   }
 
-  public void modificateUser(UserData userData) {
+  private void clickDeleteUserButton() {
+    click(By.cssSelector(".left:nth-child(8) > input"));
+  }
+
+  private void selectUser() {
+    click(By.name("selected[]"));
+  }
+
+  public void changeUserInfo(UserData userData) {
+    getCompany(userData);
+    updateData();
+  }
+
+  private void getCompany(UserData userData) {
     type(By.name("company"), userData.getCompany());
+  }
+
+  private void updateData() {
     click(By.xpath("(//input[@name='update'])[2]"));
   }
 
