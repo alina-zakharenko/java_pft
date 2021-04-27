@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
-import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +31,7 @@ public class ApplicationManager {
     } else if (browser.equals(BrowserType.IE)) {
       wd = new InternetExplorerDriver();
     }
-    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/group.php");
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
@@ -82,5 +81,8 @@ public class ApplicationManager {
     wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
   }
 
+  public void updateInfo() {
+    wd.findElement(By.xpath("(//input[@name='update'])[2]")).click();
+  }
 
 }

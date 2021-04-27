@@ -2,7 +2,8 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 
 public class UserHelper extends HelperBase {
@@ -11,11 +12,18 @@ public class UserHelper extends HelperBase {
     super(wd);
   }
 
-  public void fillUserInfo(UserData userData) {
+  public void fillUserInfo(UserData userData, boolean creation) {
     typeUserData(By.name("firstname"), userData.getFirstname());
     typeUserData(By.name("lastname"), userData.getLastname());
     typeUserData(By.name("email"), userData.getEmail());
+    typeUserData(By.name("company"), userData.getCompany());
+    if (creation) {
+      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
+    }
   }
+
 
   private void typeUserData(By locator, String text) {
     wd.findElement(locator).click();
@@ -23,9 +31,6 @@ public class UserHelper extends HelperBase {
     wd.findElement(locator).sendKeys(text);
   }
 
-  public void gotoCreateUserPage() {
-    wd.findElement(By.linkText("add new")).click();
-  }
 
   public void editUser() {
     click(By.xpath("//img[@alt='Edit']"));
@@ -49,10 +54,10 @@ public class UserHelper extends HelperBase {
     click(By.name("selected[]"));
   }
 
-  public void changeUserInfo(UserData userData) {
-    getCompany(userData);
-    updateData();
-  }
+//  public void changeUserInfo(UserData userData) {
+//    getCompany(userData);
+//    updateData();
+//  }
 
   private void getCompany(UserData userData) {
     type(By.name("company"), userData.getCompany());
@@ -61,6 +66,5 @@ public class UserHelper extends HelperBase {
   private void updateData() {
     click(By.xpath("(//input[@name='update'])[2]"));
   }
-
 
 }
