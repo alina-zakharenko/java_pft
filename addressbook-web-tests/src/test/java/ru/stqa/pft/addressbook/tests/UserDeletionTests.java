@@ -6,9 +6,9 @@ import ru.stqa.pft.addressbook.model.TestBase;
 public class UserDeletionTests extends TestBase {
   @Test
   public void testUserDeletionTest() throws Exception {
-    applicationManager.gotoHomePage();
+    applicationManager.getNavigationHelper().gotoHomePage();
     applicationManager.getUserHelper().deleteUser();
-    applicationManager.gotoHomePage();
+    applicationManager.getNavigationHelper().gotoHomePage();
   }
 
 }

@@ -73,9 +73,9 @@ public class ApplicationManager {
   }
 
 
-  public void gotoHomePage() {
-    wd.findElement(By.xpath("//div[@id='header']/a")).click();
-  }
+//  public void gotoHomePage() {
+//    wd.findElement(By.xpath("//div[@id='header']/a")).click();
+//  }
 
   public void submitInfo() {
     wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();

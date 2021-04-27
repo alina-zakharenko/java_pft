@@ -17,7 +17,7 @@ public class NewUserCreationTest extends TestBase {
     applicationManager.getNavigationHelper().gotoCreateUserPage();
     applicationManager.getUserHelper().fillUserInfo(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test3"), true);
     applicationManager.submitInfo();
-    applicationManager.gotoHomePage();
+    applicationManager.getNavigationHelper().gotoHomePage();
   }
 
 }

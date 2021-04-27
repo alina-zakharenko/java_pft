@@ -10,14 +10,24 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void gotoGroupPage() {
+    if (isElementPresent(By.tagName("h1"))
+            && wd.findElement(By.tagName("h1")).getText().equals("Groups")
+            && isElementPresent(By.name("new"))) {
+      return;
+    }
     click(By.linkText("groups"));
   }
 
   public void gotoCreateUserPage() {
-    wd.findElement(By.linkText("add new")).click();
+    click(By.linkText("add new"));
+    //wd.findElement(By.linkText("add new")).click();
   }
 
   public void gotoHomePage() {
-    wd.findElement(By.xpath("//div[@id='header']/a")).click();
+    if (isElementPresent(By.id("maintable"))){
+      return;
+    }
+    click(By.linkText("home"));
+    //wd.findElement(By.linkText("home")).click();
   }
 }
