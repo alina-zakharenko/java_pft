@@ -12,6 +12,20 @@ public class UserHelper extends HelperBase {
     super(wd);
   }
 
+  /**
+   * initialization of user
+   */
+
+  public void createUser(UserData user) {
+    gotoCreateUserPage();
+    fillUserInfo(user, true);
+    submitUserCreation();
+  }
+
+  public void gotoCreateUserPage() {
+    click(By.linkText("add new"));
+  }
+
   public void fillUserInfo(UserData userData, boolean creation) {
     typeUserData(By.name("firstname"), userData.getFirstname());
     typeUserData(By.name("lastname"), userData.getLastname());
@@ -24,47 +38,64 @@ public class UserHelper extends HelperBase {
     }
   }
 
-
   private void typeUserData(By locator, String text) {
     wd.findElement(locator).click();
     wd.findElement(locator).clear();
     wd.findElement(locator).sendKeys(text);
   }
 
+  public void submitUserCreation() {
+    wd.findElement(By.name("submit")).click();
+  }
 
-  public void editUser() {
+  /**
+   * initialization of user modification
+   */
+  public void initUserDataModificationLocator() {
+    editUserButton();
+  }
+
+  public void acceptUserDataModificationLocator() {
+    click(By.name("update"));
+
+  }
+
+  public void editUserButton() {
     click(By.xpath("//img[@alt='Edit']"));
   }
 
+  /**
+   * delete user
+   */
   public void deleteUser() {
     selectUser();
     clickDeleteUserButton();
     getAccept();
   }
 
-  private void getAccept() {
-    wd.switchTo().alert().accept();
-  }
-
-  private void clickDeleteUserButton() {
-    click(By.cssSelector(".left:nth-child(8) > input"));
-  }
-
-  private void selectUser() {
+  public void selectUser() {
     click(By.name("selected[]"));
   }
 
-//  public void changeUserInfo(UserData userData) {
-//    getCompany(userData);
-//    updateData();
-//  }
+  public void getAccept() {
+    wd.switchTo().alert().accept();
+  }
 
-  private void getCompany(UserData userData) {
+  public void clickDeleteUserButton() {
+    click(By.cssSelector(".left:nth-child(8) > input"));
+  }
+
+  public void getCompany(UserData userData) {
     type(By.name("company"), userData.getCompany());
   }
 
-  private void updateData() {
-    click(By.xpath("(//input[@name='update'])[2]"));
+  public boolean isThereAnUser() {
+    return isElementPresent(By.name("selected[]"));
   }
 
+//    public void changeUserInfo(UserData userData) {
+//    getCompany(userData);
+//    updateData();
+//  }
 }
+

@@ -18,16 +18,15 @@ public class NavigationHelper extends HelperBase {
     click(By.linkText("groups"));
   }
 
-  public void gotoCreateUserPage() {
-    click(By.linkText("add new"));
-    //wd.findElement(By.linkText("add new")).click();
-  }
+//  public void gotoCreateUserPage() {
+//    click(By.linkText("add new"));
+//    //wd.findElement(By.linkText("add new")).click();
+//  }
 
   public void gotoHomePage() {
-    if (isElementPresent(By.id("maintable"))){
+    if (isElementPresent(By.id("maintable"))) {
       return;
     }
     click(By.linkText("home"));
-    //wd.findElement(By.linkText("home")).click();
   }
 }
