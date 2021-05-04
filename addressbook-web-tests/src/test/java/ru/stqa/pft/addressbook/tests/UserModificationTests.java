@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
+import java.util.List;
+
 public class UserModificationTests extends TestBase {
   WebDriver wd;
 
@@ -16,17 +18,17 @@ public class UserModificationTests extends TestBase {
       applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
     applicationManager.getNavigationHelper().gotoHomePage();
-    int before = applicationManager.getUserHelper().getUserCount();
-    System.out.println("Количество до " + before);
+    List<UserData> before = applicationManager.getUserHelper().getUserList();
+    System.out.println("Количество до " + before.size());
     applicationManager.getNavigationHelper().gotoHomePage();
-    applicationManager.getUserHelper().selectUser(before - 2);
+    applicationManager.getUserHelper().selectUser(before.size() - 1);
     applicationManager.getUserHelper().initUserDataModificationLocator();
     applicationManager.getUserHelper().fillUserInfo(new UserData("Ivi", "Ivanov", "ii@gmail.com", "Hogwards", "test1"), false);
     applicationManager.getUserHelper().acceptUserDataModificationLocator();
     applicationManager.getNavigationHelper().gotoHomePage();
-    int after = applicationManager.getUserHelper().getUserCount();
-    System.out.println("Количество после " + before);
-    Assert.assertEquals(after, before);
+    List<UserData> after = applicationManager.getUserHelper().getUserList();
+    System.out.println("Количество после " + after.size());
+    Assert.assertEquals(after.size(), before.size());
   }
 
 
