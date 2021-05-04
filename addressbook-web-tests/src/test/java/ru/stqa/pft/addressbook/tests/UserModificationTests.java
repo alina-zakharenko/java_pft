@@ -19,7 +19,7 @@ public class UserModificationTests extends TestBase {
     int before = applicationManager.getUserHelper().getUserCount();
     System.out.println("Количество до " + before);
     applicationManager.getNavigationHelper().gotoHomePage();
-    applicationManager.getUserHelper().selectUser();
+    applicationManager.getUserHelper().selectUser(before - 2);
     applicationManager.getUserHelper().initUserDataModificationLocator();
     applicationManager.getUserHelper().fillUserInfo(new UserData("Ivi", "Ivanov", "ii@gmail.com", "Hogwards", "test1"), false);
     applicationManager.getUserHelper().acceptUserDataModificationLocator();

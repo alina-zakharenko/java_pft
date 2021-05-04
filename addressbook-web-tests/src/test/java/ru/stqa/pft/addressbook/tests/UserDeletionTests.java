@@ -13,6 +13,7 @@ public class UserDeletionTests extends TestBase {
       applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
     int before = applicationManager.getUserHelper().getUserCount();
+    applicationManager.getUserHelper().selectUser(before - 1);
     applicationManager.getUserHelper().deleteUser();
     applicationManager.getNavigationHelper().gotoHomePage();
     int after = applicationManager.getUserHelper().getUserCount();

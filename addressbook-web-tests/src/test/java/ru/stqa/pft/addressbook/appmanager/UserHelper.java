@@ -68,13 +68,12 @@ public class UserHelper extends HelperBase {
    * delete user
    */
   public void deleteUser() {
-    selectUser();
     clickDeleteUserButton();
     getAccept();
   }
 
-  public void selectUser() {
-    click(By.name("selected[]"));
+  public void selectUser(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void getAccept() {
