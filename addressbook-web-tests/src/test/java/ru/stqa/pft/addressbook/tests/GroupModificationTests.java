@@ -1,8 +1,11 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.TestBase;
+
+import java.util.List;
 
 public class GroupModificationTests extends TestBase {
   @Test
@@ -11,12 +14,16 @@ public class GroupModificationTests extends TestBase {
     if (!applicationManager.getGroupHelper().isThereAGroup()) {
       applicationManager.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
-    applicationManager.getGroupHelper().selectGroup();
+    List<GroupData> before = applicationManager.getGroupHelper().getGroupList();
+    applicationManager.getGroupHelper().selectGroup(before.size() - 1);
+    System.out.println("Количество групп до " + before.size());
     applicationManager.getGroupHelper().initGroupModification();
     applicationManager.getGroupHelper().fillGroupForm(new GroupData("test1", "test2", "test3"));
     applicationManager.getGroupHelper().submitGroupModification();
     applicationManager.getGroupHelper().returnToGroupPage();
-
+    List<GroupData> after = applicationManager.getGroupHelper().getGroupList();
+    Assert.assertEquals(after.size(), before.size(), "Количество групп до и после не совпадает.");
+    System.out.println("Количество групп до " + before.size() + " и после " + after.size());
   }
 
 }
