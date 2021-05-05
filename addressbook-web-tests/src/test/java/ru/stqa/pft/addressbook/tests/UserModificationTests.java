@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class UserModificationTests extends TestBase {
@@ -23,12 +24,18 @@ public class UserModificationTests extends TestBase {
     applicationManager.getNavigationHelper().gotoHomePage();
     applicationManager.getUserHelper().selectUser(before.size() - 1);
     applicationManager.getUserHelper().initUserDataModificationLocator();
-    applicationManager.getUserHelper().fillUserInfo(new UserData("Ivi", "Ivanov", "ii@gmail.com", "Hogwards", "test1"), false);
+    UserData user = new UserData ("Ivi", "Ivanov", "ii@gmail.com", "Hogwards", "test1");
+    applicationManager.getUserHelper().fillUserInfo(user, false);
     applicationManager.getUserHelper().acceptUserDataModificationLocator();
     applicationManager.getNavigationHelper().gotoHomePage();
     List<UserData> after = applicationManager.getUserHelper().getUserList();
     System.out.println("Количество после " + after.size());
     Assert.assertEquals(after.size(), before.size());
+
+    before.remove(before.size() - 1);
+    before.add(user);
+    Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+
   }
 
 
