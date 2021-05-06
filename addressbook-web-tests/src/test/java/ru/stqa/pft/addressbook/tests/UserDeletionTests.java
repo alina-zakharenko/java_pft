@@ -14,15 +14,15 @@ public class UserDeletionTests extends TestBase {
     if (!applicationManager.getUserHelper().isThereAnUser()) {
       applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
-    List<UserData> before = applicationManager.getUserHelper().getUserList();
+    List<UserData> before = applicationManager.getUserHelper().getUserList(); //список before
     applicationManager.getUserHelper().selectUser(before.size() - 1);
     applicationManager.getUserHelper().deleteUser();
     applicationManager.getNavigationHelper().gotoHomePage();
-    List<UserData> after = applicationManager.getUserHelper().getUserList();
-    Assert.assertEquals(after.size(), before.size() - 1);
+    List<UserData> after = applicationManager.getUserHelper().getUserList(); //список after
+    Assert.assertEquals(after.size(), before.size() - 1); // сравниватся размеры списков
 
     before.remove(before.size() - 1);
-    Assert.assertEquals(before, after);
+    Assert.assertEquals(before, after);  // сравниватся списки целиком до и после удаления
   }
 }
 

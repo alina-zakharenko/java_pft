@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.ArrayList;
@@ -102,15 +101,16 @@ public class UserHelper extends HelperBase {
   }
 
   public List<UserData> getUserList() {
-    List<UserData> users = new ArrayList<>();
-    List<WebElement> elements = wd.findElements(By.name("selected[]"));
+    List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
+    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
     for (WebElement element : elements) {
-      String firstname = element.getText();
-      String lastname = element.getText();
-      UserData user = new UserData (firstname, lastname, null, null, null);
+      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
+      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
+      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
+      int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+      UserData user = new UserData(id, firstname, lastname, null, null, null);
       users.add(user);
     }
-
     return users;
   }
 
