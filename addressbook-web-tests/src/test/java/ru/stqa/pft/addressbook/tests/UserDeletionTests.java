@@ -8,7 +8,7 @@ import ru.stqa.pft.addressbook.model.UserData;
 import java.util.List;
 
 public class UserDeletionTests extends TestBase {
-  @Test
+  @Test (enabled = false)
   public void testUserDeletionTest() throws Exception {
     applicationManager.getNavigationHelper().gotoHomePage();
     if (!applicationManager.getUserHelper().isThereAnUser()) {

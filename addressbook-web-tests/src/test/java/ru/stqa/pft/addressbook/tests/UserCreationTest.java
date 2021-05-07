@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserCreationTest extends TestBase {
 
-  @Test
+  @Test (enabled = false)
   public void testNewUserCreation() throws Exception {
     applicationManager.getNavigationHelper().gotoHomePage();
     List<UserData> before = applicationManager.getUserHelper().getUserList();

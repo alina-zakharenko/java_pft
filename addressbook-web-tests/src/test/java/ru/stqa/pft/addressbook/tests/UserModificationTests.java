@@ -14,7 +14,7 @@ import java.util.List;
 public class UserModificationTests extends TestBase {
   WebDriver wd;
 
-  @Test
+  @Test (enabled = false)
   public void testUserModificationTest() throws Exception {
     applicationManager.getNavigationHelper().gotoHomePage();
     if (!applicationManager.getUserHelper().isThereAnUser()) {
