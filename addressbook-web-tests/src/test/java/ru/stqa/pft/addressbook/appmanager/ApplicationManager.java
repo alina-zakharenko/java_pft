@@ -56,27 +56,4 @@ public class ApplicationManager {
     return userHelper;
   }
 
-
-// to be deleted
-
-//  private void login(String username, String password) {
-//    wd.findElement(By.name("user")).clear();
-//    wd.findElement(By.name("user")).sendKeys(username);
-//    wd.findElement(By.name("pass")).click();
-//    wd.findElement(By.name("pass")).clear();
-//    wd.findElement(By.name("pass")).sendKeys(password);
-//    wd.findElement(By.xpath("//input[@value='Login']")).click();
-//  }
-
-//  public void gotoHomePage() {
-//    wd.findElement(By.xpath("//div[@id='header']/a")).click();
-//  }
-//  public void submitInfo() {
-//    wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
-//  }
-//
-//  public void updateInfo() {
-//    wd.findElement(By.xpath("(//input[@name='update'])[2]")).click();
-//  }
-
 }
