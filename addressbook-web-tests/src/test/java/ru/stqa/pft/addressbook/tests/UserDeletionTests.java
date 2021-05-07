@@ -10,15 +10,15 @@ import java.util.List;
 public class UserDeletionTests extends TestBase {
   @Test (enabled = false)
   public void testUserDeletionTest() throws Exception {
-    applicationManager.getNavigationHelper().gotoHomePage();
-    if (!applicationManager.getUserHelper().isThereAnUser()) {
-      applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
+    app.goTo().gotoHomePage();
+    if (!app.getUserHelper().isThereAnUser()) {
+      app.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
-    List<UserData> before = applicationManager.getUserHelper().getUserList(); //список before
-    applicationManager.getUserHelper().selectUser(before.size() - 1);
-    applicationManager.getUserHelper().deleteUser();
-    applicationManager.getNavigationHelper().gotoHomePage();
-    List<UserData> after = applicationManager.getUserHelper().getUserList(); //список after
+    List<UserData> before = app.getUserHelper().getUserList(); //список before
+    app.getUserHelper().selectUser(before.size() - 1);
+    app.getUserHelper().deleteUser();
+    app.goTo().gotoHomePage();
+    List<UserData> after = app.getUserHelper().getUserList(); //список after
     Assert.assertEquals(after.size(), before.size() - 1); // сравниватся размеры списков
 
     before.remove(before.size() - 1);

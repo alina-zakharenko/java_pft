@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -16,21 +15,21 @@ public class UserModificationTests extends TestBase {
 
   @Test (enabled = false)
   public void testUserModificationTest() throws Exception {
-    applicationManager.getNavigationHelper().gotoHomePage();
-    if (!applicationManager.getUserHelper().isThereAnUser()) {
-      applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
+    app.goTo().gotoHomePage();
+    if (!app.getUserHelper().isThereAnUser()) {
+      app.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
-    applicationManager.getNavigationHelper().gotoHomePage();
-    List<UserData> before = applicationManager.getUserHelper().getUserList();
+    app.goTo().gotoHomePage();
+    List<UserData> before = app.getUserHelper().getUserList();
     System.out.println("Количество до " + before.size());
     //applicationManager.getNavigationHelper().gotoHomePage();
-    applicationManager.getUserHelper().selectUser(before.size() - 1);
-    applicationManager.getUserHelper().initUserDataModificationLocator();
+    app.getUserHelper().selectUser(before.size() - 1);
+    app.getUserHelper().initUserDataModificationLocator();
     UserData user = new UserData (before.get(before.size() - 1).getId(),"Ivi", "Ivanov", "", "", "");// сохраняем старый идентификатор
-    applicationManager.getUserHelper().fillUserInfo(user, false);
-    applicationManager.getUserHelper().acceptUserDataModificationLocator();
-    applicationManager.getNavigationHelper().gotoHomePage();
-    List<UserData> after = applicationManager.getUserHelper().getUserList();
+    app.getUserHelper().fillUserInfo(user, false);
+    app.getUserHelper().acceptUserDataModificationLocator();
+    app.goTo().gotoHomePage();
+    List<UserData> after = app.getUserHelper().getUserList();
     Assert.assertEquals(after.size(), before.size());
     System.out.println("Количество после " + after.size());
 
