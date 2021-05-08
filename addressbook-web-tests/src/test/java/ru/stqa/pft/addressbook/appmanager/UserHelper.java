@@ -55,18 +55,17 @@ public class UserHelper extends HelperBase {
   /**
    * initialization of user modification
    */
-  public void initUserDataModificationLocator() {
-    editUserButton();
-  }
+
 
   public void acceptUserDataModificationLocator() {
     click(By.name("update"));
 
   }
 
-  public void editUserButton() {
-    click(By.xpath("//img[@alt='Edit']"));
+  public void editUser(int index) {
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
+
 
   /**
    * delete user
@@ -79,6 +78,7 @@ public class UserHelper extends HelperBase {
   public void selectUser(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
+
 
   public void getAccept() {
     wd.switchTo().alert().accept();
@@ -107,12 +107,15 @@ public class UserHelper extends HelperBase {
       element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
       String firstname = element.findElement(By.xpath(".//td[3]")).getText();
       String lastname = element.findElement(By.xpath(".//td[2]")).getText();
-      int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+
+      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
       UserData user = new UserData(id, firstname, lastname, null, null, null);
       users.add(user);
     }
     return users;
   }
+
 
 //    public void changeUserInfo(UserData userData) {
 //    getCompany(userData);

@@ -19,13 +19,10 @@ public class UserModificationTests extends TestBase {
     if (!app.getUserHelper().isThereAnUser()) {
       app.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
     }
-    app.goTo().gotoHomePage();
     List<UserData> before = app.getUserHelper().getUserList();
-    System.out.println("Количество до " + before.size());
-    //applicationManager.getNavigationHelper().gotoHomePage();
-    app.getUserHelper().selectUser(before.size() - 1);
-    app.getUserHelper().initUserDataModificationLocator();
-    UserData user = new UserData (before.get(before.size() - 1).getId(),"Ivi", "Ivanov", "", "", "");// сохраняем старый идентификатор
+    app.goTo().gotoHomePage();
+    app.getUserHelper().editUser(before.size() - 1);
+    UserData user = new UserData(before.get(before.size() - 1).getId(), "Ivi", "Ivanov", "", "", "");// сохраняем старый идентификатор
     app.getUserHelper().fillUserInfo(user, false);
     app.getUserHelper().acceptUserDataModificationLocator();
     app.goTo().gotoHomePage();

@@ -15,10 +15,9 @@ public class UserCreationTest extends TestBase {
     app.goTo().gotoHomePage();
     List<UserData> before = app.getUserHelper().getUserList();
     System.out.println("Количество до " + before.size());
-    // applicationManager.getUserHelper().createUser(new UserData("Hermine", "Granger", "herminegranger@magic.com", "", "test1"));
-    //applicationManager.getUserHelper().createUser(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
-    //applicationManager.getNavigationHelper().gotoHomePage();
-    UserData user = new UserData("Harry", "Potter", "harrypotter@magic.com", "", "test1");
+    //UserData user = new UserData("Harry", "Potter", "harrypotter@magic.com", "", "test2");
+    //UserData user = new UserData("Hermine", "Granger", "herminegranger@magic.com", "", "test2");
+    UserData user = new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test2");
     app.getUserHelper().createUser(user);
     app.goTo().gotoHomePage();
     List<UserData> after = app.getUserHelper().getUserList();
