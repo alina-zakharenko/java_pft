@@ -18,7 +18,7 @@ public class GroupCreationTests extends TestBase {
     GroupData group = new GroupData().withName("test3");
     app.group().create(group);
     Set<GroupData> after = app.group().all();
-    app.goTo().gotoHomePage();
+    app.goTo().homePage();
     Assert.assertEquals(after.size(), before.size() + 1, "Количество групп после не увеличилось.");
     System.out.println("Количество групп после " + after.size());
 

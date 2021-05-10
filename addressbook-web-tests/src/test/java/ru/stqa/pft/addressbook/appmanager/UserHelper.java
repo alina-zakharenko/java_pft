@@ -21,18 +21,22 @@ public class UserHelper extends HelperBase {
    */
 
 
-  public void modifyUser(int index, UserData user) {
+  public void modify(int index, UserData user) {
     editUser(index);
     fillUserInfo(user, false);
     acceptUserDataModificationLocator();
   }
 
-  public void createUser(UserData user) {
+  public void create(UserData user) {
     gotoCreateUserPage();
     fillUserInfo(user, true);
     submitUserCreation();
   }
 
+  public void delete(int index) {
+    selectUser(index);
+    deleteUser();
+  }
   public void gotoCreateUserPage() {
     click(By.linkText("add new"));
   }
@@ -107,7 +111,7 @@ public class UserHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<UserData> getUserList() {
+  public List<UserData> list() {
     List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
     List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
     for (WebElement element : elements) {

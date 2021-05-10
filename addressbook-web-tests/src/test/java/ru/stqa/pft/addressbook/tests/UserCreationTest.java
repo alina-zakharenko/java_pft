@@ -12,15 +12,14 @@ public class UserCreationTest extends TestBase {
 
   @Test //(enabled = false)
   public void testNewUserCreation() throws Exception {
-    app.goTo().gotoHomePage();
-    List<UserData> before = app.getUserHelper().getUserList();
-    System.out.println("Количество до " + before.size());
+    app.goTo().homePage();
+    List<UserData> before = app.user().list();
     //UserData user = new UserData("Harry", "Potter", "harrypotter@magic.com", "", "test2");
     //UserData user = new UserData("Hermine", "Granger", "herminegranger@magic.com", "", "test2");
     UserData user = new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test2");
-    app.getUserHelper().createUser(user);
-    app.goTo().gotoHomePage();
-    List<UserData> after = app.getUserHelper().getUserList();
+    app.user().create(user);
+    app.goTo().homePage();
+    List<UserData> after = app.user().list();
     System.out.println("Количество после " + after.size());
     Assert.assertEquals(after.size(), before.size() + 1);
 

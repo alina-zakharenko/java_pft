@@ -23,7 +23,7 @@ public class NavigationHelper extends HelperBase {
 //    //wd.findElement(By.linkText("add new")).click();
 //  }
 
-  public void gotoHomePage() {
+  public void homePage() {
     if (isElementPresent(By.id("maintable"))) {
       return;
     }
