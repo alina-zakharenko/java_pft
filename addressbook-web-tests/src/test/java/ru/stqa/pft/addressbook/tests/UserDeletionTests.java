@@ -14,7 +14,8 @@ public class UserDeletionTests extends TestBase {
   public void ensurePreconditions(){
     app.goTo().homePage();
     if (app.user().list().size()==0) {
-      app.user().create(new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test1"));
+      app.user().create(new UserData()
+              .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1"));
     }
   }
 

@@ -121,8 +121,7 @@ public class UserHelper extends HelperBase {
       //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
 
       int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
-      UserData user = new UserData(id, firstname, lastname, null, null, null);
-      users.add(user);
+      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
     }
     return users;
   }

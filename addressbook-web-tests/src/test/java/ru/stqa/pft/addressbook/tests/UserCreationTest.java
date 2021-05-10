@@ -16,7 +16,7 @@ public class UserCreationTest extends TestBase {
     List<UserData> before = app.user().list();
     //UserData user = new UserData("Harry", "Potter", "harrypotter@magic.com", "", "test2");
     //UserData user = new UserData("Hermine", "Granger", "herminegranger@magic.com", "", "test2");
-    UserData user = new UserData("Ron", "Weasley", "ronWeasley@magic.com", "", "test2");
+    UserData user = new UserData().withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test2");
     app.user().create(user);
     app.goTo().homePage();
     List<UserData> after = app.user().list();
