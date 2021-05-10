@@ -20,6 +20,13 @@ public class UserHelper extends HelperBase {
    * initialization of user
    */
 
+
+  public void modifyUser(int index, UserData user) {
+    editUser(index);
+    fillUserInfo(user, false);
+    acceptUserDataModificationLocator();
+  }
+
   public void createUser(UserData user) {
     gotoCreateUserPage();
     fillUserInfo(user, true);
