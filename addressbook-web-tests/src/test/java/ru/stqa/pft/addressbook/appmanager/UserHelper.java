@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserHelper extends HelperBase {
 
@@ -107,6 +109,20 @@ public class UserHelper extends HelperBase {
   }
 
 
+  public Set<UserData> all() {
+    Set<UserData> users = new HashSet<>();  //создаем список, который будет заполняться
+    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
+    for (WebElement element : elements) {
+      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
+      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
+      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
+      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+
+      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
+      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
+    }
+    return users;
+  }
   //  public void getCompany(UserData userData) {
 //    type(By.name("company"), userData.getCompany());
 //  }

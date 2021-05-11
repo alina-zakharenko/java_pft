@@ -28,7 +28,7 @@ public class UserModificationTests extends TestBase {
     List<UserData> before = app.user().list();
     int index = before.size() - 1;
     UserData user = new UserData()
-            .withId(before.get(index).getId()).withFirstname("Ivan").withLastname("Ivanov").withEmail("Ii@magic.com").withCompany("").withGroup("test1");// сохраняем старый идентификатор
+            .withId(before.get(index).getId()).withFirstname("Vasja").withLastname("Petrov").withEmail("Ii@magic.com").withCompany("").withGroup("test1");// сохраняем старый идентификатор
     app.goTo().homePage();
     app.user().modify(index, user);
     app.goTo().homePage();
