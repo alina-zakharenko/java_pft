@@ -10,6 +10,7 @@ import ru.stqa.pft.addressbook.model.UserData;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserModificationTests extends TestBase {
   WebDriver wd;
@@ -25,24 +26,21 @@ public class UserModificationTests extends TestBase {
 
   @Test //(enabled = false)
   public void testUserModificationTest() throws Exception {
-    List<UserData> before = app.user().list();
-    int index = before.size() - 1;
+    Set<UserData> before = app.user().all();
+    UserData modifiedUser = before.iterator().next();// next() - вернет первый элемент множества
     UserData user = new UserData()
-            .withId(before.get(index).getId()).withFirstname("Vasja").withLastname("Petrov").withEmail("Ii@magic.com").withCompany("").withGroup("test1");// сохраняем старый идентификатор
+            .withId(modifiedUser.getId()).withFirstname("Vasja").withLastname("Petrov").withEmail("Ii@magic.com").withCompany("").withGroup("test1");// сохраняем старый идентификатор
     app.goTo().homePage();
-    app.user().modify(index, user);
+    app.user().modify(user);
     app.goTo().homePage();
-    List<UserData> after = app.user().list();
+    Set<UserData> after = app.user().all();
     Assert.assertEquals(after.size(), before.size());
     System.out.println("Количество после " + after.size());
 
-    before.remove(index);
+    before.remove(modifiedUser);
     before.add(user);
     System.out.println("HashSet before" + new HashSet<Object>(before));
     System.out.println("HashSet after" + new HashSet<Object>(after));
-    Comparator<? super UserData> byId = (u1, u2) -> Integer.compare(u1.getId(), u2.getId());
-    before.sort(byId);
-    after.sort(byId);
     Assert.assertEquals(before, after);
 
   }
