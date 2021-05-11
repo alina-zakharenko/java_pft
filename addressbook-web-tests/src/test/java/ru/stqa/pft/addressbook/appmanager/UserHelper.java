@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
+import ru.stqa.pft.addressbook.model.Users;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -130,8 +131,8 @@ public class UserHelper extends HelperBase {
   }
 
 
-  public Set<UserData> all() {
-    Set<UserData> users = new HashSet<>();  //создаем список, который будет заполняться
+  public Users all() {
+    Users users = new Users();  //создаем список, который будет заполняться
     List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
     for (WebElement element : elements) {
       element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
