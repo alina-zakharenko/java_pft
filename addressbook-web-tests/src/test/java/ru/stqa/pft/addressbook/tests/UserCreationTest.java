@@ -20,7 +20,6 @@ public class UserCreationTest extends TestBase {
     app.user().create(user);
     app.goTo().homePage();
     List<UserData> after = app.user().list();
-    System.out.println("Количество после " + after.size());
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(user);

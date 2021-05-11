@@ -16,31 +16,62 @@ public class UserHelper extends HelperBase {
     super(wd);
   }
 
-  /**
-   * initialization of user
-   */
-
-
-  public void modify(int index, UserData user) {
-    editUser(index);
-    fillUserInfo(user, false);
-    acceptUserDataModificationLocator();
-  }
-
+  //create user
   public void create(UserData user) {
     gotoCreateUserPage();
     fillUserInfo(user, true);
     submitUserCreation();
   }
 
-  public void delete(int index) {
-    selectUser(index);
-    deleteUser();
-  }
   public void gotoCreateUserPage() {
     click(By.linkText("add new"));
   }
 
+  public void submitUserCreation() {
+    wd.findElement(By.name("submit")).click();
+  }
+
+
+  //modify user
+  public void modify(int index, UserData user) {
+    editUser(index);
+    fillUserInfo(user, false);
+    acceptUserDataModificationLocator();
+  }
+
+  public void editUser(int index) {
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+  }
+
+  public void acceptUserDataModificationLocator() {
+    click(By.name("update"));
+  }
+
+
+  //delete user
+  public void delete(int index) {
+    selectUser(index);
+    deleteUser();
+  }
+
+  public void selectUser(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
+  }
+
+  public void deleteUser() {
+    clickDeleteUserButton();
+    getAccept();
+  }
+
+  public void clickDeleteUserButton() {
+    click(By.cssSelector(".left:nth-child(8) > input"));
+  }
+
+  public void getAccept() {
+    wd.switchTo().alert().accept();
+  }
+
+  //data
   public void fillUserInfo(UserData userData, boolean creation) {
     typeUserData(By.name("firstname"), userData.getFirstname());
     typeUserData(By.name("lastname"), userData.getLastname());
@@ -59,57 +90,6 @@ public class UserHelper extends HelperBase {
     wd.findElement(locator).sendKeys(text);
   }
 
-  public void submitUserCreation() {
-    wd.findElement(By.name("submit")).click();
-  }
-
-  /**
-   * initialization of user modification
-   */
-
-
-  public void acceptUserDataModificationLocator() {
-    click(By.name("update"));
-
-  }
-
-  public void editUser(int index) {
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
-  }
-
-
-  /**
-   * delete user
-   */
-  public void deleteUser() {
-    clickDeleteUserButton();
-    getAccept();
-  }
-
-  public void selectUser(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
-  }
-
-
-  public void getAccept() {
-    wd.switchTo().alert().accept();
-  }
-
-  public void clickDeleteUserButton() {
-    click(By.cssSelector(".left:nth-child(8) > input"));
-  }
-
-  public void getCompany(UserData userData) {
-    type(By.name("company"), userData.getCompany());
-  }
-
-  public boolean isThereAnUser() {
-    return isElementPresent(By.name("selected[]"));
-  }
-
-  public int getUserCount() {
-    return wd.findElements(By.name("selected[]")).size();
-  }
 
   public List<UserData> list() {
     List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
@@ -127,6 +107,17 @@ public class UserHelper extends HelperBase {
   }
 
 
+  //  public void getCompany(UserData userData) {
+//    type(By.name("company"), userData.getCompany());
+//  }
+//
+//  public boolean isThereAnUser() {
+//    return isElementPresent(By.name("selected[]"));
+//  }
+//
+//  public int getUserCount() {
+//    return wd.findElements(By.name("selected[]")).size();
+//  }
 //    public void changeUserInfo(UserData userData) {
 //    getCompany(userData);
 //    updateData();
