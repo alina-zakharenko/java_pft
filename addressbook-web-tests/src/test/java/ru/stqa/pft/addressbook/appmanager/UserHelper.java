@@ -56,8 +56,18 @@ public class UserHelper extends HelperBase {
     deleteUser();
   }
 
+
+  public void delete(UserData user) {
+    selectUserById(user.getId());
+    deleteUser();
+  }
+
   public void selectUser(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
+  }
+
+  public void selectUserById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
   public void deleteUser() {
@@ -123,6 +133,7 @@ public class UserHelper extends HelperBase {
     }
     return users;
   }
+
   //  public void getCompany(UserData userData) {
 //    type(By.name("company"), userData.getCompany());
 //  }

@@ -7,6 +7,7 @@ import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserDeletionTests extends TestBase {
 
@@ -21,14 +22,14 @@ public class UserDeletionTests extends TestBase {
 
   @Test //(enabled = false)
   public void testUserDeletionTest() throws Exception {
-    List<UserData> before = app.user().list(); //список before
-    int index = before.size() - 1;
-    app.user().delete(index);
+    Set<UserData> before = app.user().all(); //список before
+    UserData deletedUser = before.iterator().next();// next() - вернет первый элемент множества
+    app.user().delete(deletedUser);
     app.goTo().homePage();
-    List<UserData> after = app.user().list(); //список after
+    Set<UserData> after = app.user().all(); //список after
     Assert.assertEquals(after.size(), before.size() - 1); // сравниватся размеры списков
 
-    before.remove(index);
+    before.remove(deletedUser);
     Assert.assertEquals(before, after);  // сравниватся списки целиком до и после удаления
   }
 
