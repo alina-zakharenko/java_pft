@@ -55,6 +55,7 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    groupCash = null;
     returnToGroupPage();
   }
 
@@ -63,12 +64,14 @@ public class GroupHelper extends HelperBase {
     initGroupModification();
     fillGroupForm(group);
     submitGroupModification();
+    groupCash = null;
     returnToGroupPage();
   }
 
   public void delete(GroupData group) {
     selectGroupById(group.getId());
     deleteSelectedGroups();
+    groupCash = null;
     returnToGroupPage();
   }
 
@@ -80,16 +83,21 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size(); //возвращает объект типа List
   }
 
+  private Groups groupCash = null;
+
   public Groups all() {
-    Groups groups = new Groups();     //создаем множество - Set
+    if (groupCash != null) {
+      return new Groups(groupCash);
+    }
+    groupCash = new Groups();     //создаем множество - Set
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for (WebElement element : elements) {
       String name = element.getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      groups.add(new GroupData().withId(id).withName(name));
+      groupCash.add(new GroupData().withId(id).withName(name));
     }
 
-    return groups;
+    return new Groups(groupCash);
   }
 
 
