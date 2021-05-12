@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
@@ -24,6 +25,7 @@ public class UserHelper extends HelperBase {
     gotoCreateUserPage();
     fillUserInfo(user, true);
     submitUserCreation();
+    userCash = null;
   }
 
   public void gotoCreateUserPage() {
@@ -47,6 +49,7 @@ public class UserHelper extends HelperBase {
     editUserButton();
     fillUserInfo(user, false);
     acceptUserDataModificationLocator();
+    userCash = null;
   }
 
   public void editUser(int index) {
@@ -72,6 +75,7 @@ public class UserHelper extends HelperBase {
   public void delete(UserData user) {
     selectUserById(user.getId());
     deleteUser();
+    userCash = null;
   }
 
   public void selectUser(int index) {
@@ -115,24 +119,28 @@ public class UserHelper extends HelperBase {
   }
 
 
-  public List<UserData> list() {
-    List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
-    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
-    for (WebElement element : elements) {
-      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
-      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
-      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
-      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+//  public List<UserData> list() {
+//    List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
+//    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
+//    for (WebElement element : elements) {
+//      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
+//      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
+//      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
+//      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+//
+//      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
+//      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
+//    }
+//    return users;
+//  }
 
-      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
-      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
-    }
-    return users;
-  }
-
+  private Users userCash = null;
 
   public Users all() {
-    Users users = new Users();  //создаем список, который будет заполняться
+    if (userCash != null) {
+      return new Users(userCash);
+    }
+    userCash = new Users();  //создаем список, который будет заполняться
     List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
     for (WebElement element : elements) {
       element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
@@ -140,9 +148,9 @@ public class UserHelper extends HelperBase {
       String lastname = element.findElement(By.xpath(".//td[2]")).getText();
       //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));
       int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));// передается в конструктор и используется при сравнении
-      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
+      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
     }
-    return users;
+    return  new Users(userCash);
   }
 
   //  public void getCompany(UserData userData) {

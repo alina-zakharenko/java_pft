@@ -24,7 +24,7 @@ public class UserModificationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().homePage();
-    if (app.user().list().size() == 0) {
+    if (app.user().all().size() == 0) {
       app.user().create(new UserData()
               .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1"));
     }
