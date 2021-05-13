@@ -25,11 +25,8 @@ public class UserCreationTest extends TestBase {
     UserData user = new UserData().withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test3");
     app.user().create(user);
     app.goTo().homePage();
+    assertThat(app.user().count(), equalTo(before.size() + 1));
     Users after = app.user().all();
-    //Assert.assertEquals(after.size(), before.size() + 1);
-    assertThat(after.size(), equalTo(before.size() + 1));
-
-    ;
     assertThat(after, equalTo(
             before.withAdded(user.withId(after.stream().mapToInt((u) -> u.getId()).max().getAsInt()))));
 

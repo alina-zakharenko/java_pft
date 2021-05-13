@@ -9,6 +9,7 @@ import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertEquals;
 
@@ -20,7 +21,7 @@ public class UserDeletionTests extends TestBase {
     if (app.user().all().size() == 0) {
       app.user().create(new UserData()
               .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1"));
-      app.goTo().homePage();
+
     }
   }
 
@@ -30,8 +31,8 @@ public class UserDeletionTests extends TestBase {
     UserData deletedUser = before.iterator().next();// next() - вернет первый элемент множества
     app.user().delete(deletedUser);
     app.goTo().homePage();
-    Users after = app.user().all(); //список after
-    assertEquals(after.size(), before.size() - 1); // сравниватся размеры списков
+    assertThat(app.user().count(), equalTo(before.size() - 1));
+    Users after = app.user().all();
     assertThat(after, CoreMatchers.equalTo(before.without(deletedUser)));
   }
 

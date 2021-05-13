@@ -28,6 +28,7 @@ public class UserModificationTests extends TestBase {
       app.user().create(new UserData()
               .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1"));
     }
+    app.goTo().homePage();
   }
 
   @Test //(enabled = false)
@@ -39,8 +40,9 @@ public class UserModificationTests extends TestBase {
     app.goTo().homePage();
     app.user().modify(user);
     app.goTo().homePage();
+
+    assertThat(app.user().count(), equalTo(before.size()));
     Users after = app.user().all();
-    assertEquals(after.size(), before.size());
     assertThat(after, equalTo(before.without(modifiedUser).withAdded(user)));
 
   }

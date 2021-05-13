@@ -161,9 +161,9 @@ public class UserHelper extends HelperBase {
 //    return isElementPresent(By.name("selected[]"));
 //  }
 //
-//  public int getUserCount() {
-//    return wd.findElements(By.name("selected[]")).size();
-//  }
+  public int count() {
+    return wd.findElements(By.name("selected[]")).size();
+  }
 //    public void changeUserInfo(UserData userData) {
 //    getCompany(userData);
 //    updateData();
