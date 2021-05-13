@@ -164,6 +164,29 @@ public class UserHelper extends HelperBase {
   public int count() {
     return wd.findElements(By.name("selected[]")).size();
   }
+
+  public UserData infoFromEditForm(UserData user) {
+    initUserModificationById(user.getId()); //выбор контакт по идентификатору
+    String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new UserData().withId(user.getId()).withFirstname(firstname).withLastname(lastname)
+            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+  }
+
+  private void initUserModificationById(int id){
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+    WebElement row = checkbox.findElement(By.xpath("./../..")); //ячейка -> cтрочка
+    List<WebElement> cells = row.findElements(By.tagName("td")); //ищем ячейку с карандашом -> полный список ячеек и ищем все элеметы с tagName("td")
+    cells.get(7).findElement(By.tagName("a")).click(); // берем нужную ячейку -> находим ссылку и кликаем по ней
+
+    //wd.findElement(By.xpath(String.format("//input[value='%s']/../../td[8]/a", id))).click(); //находим чекбокс - на 2 уровня вверх - ищем 8 ячейку -- внутри ссылку - click
+    //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click(); //найти строку, внутри которой есть чекбокс с заданным айди
+    //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+  }
 //    public void changeUserInfo(UserData userData) {
 //    getCompany(userData);
 //    updateData();

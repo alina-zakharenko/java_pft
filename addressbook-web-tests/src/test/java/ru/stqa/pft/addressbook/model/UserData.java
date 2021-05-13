@@ -10,6 +10,9 @@ public class UserData {
   private String email;
   private String company;
   private String group;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
 
 
 //  public UserData(String firstname, String lastname, String email, String company, String group) {
@@ -67,6 +70,22 @@ public class UserData {
   }
 
 
+  public UserData withHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+    return this;
+  }
+
+  public UserData withMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+    return this;
+  }
+
+  public UserData withWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
+    return this;
+  }
+
+
   public String getFirstname() {
     return firstname;
   }
@@ -110,4 +129,6 @@ public class UserData {
   public int hashCode() {
     return Objects.hash(id, firstname, lastname);
   }
+
+
 }
