@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
@@ -9,7 +8,6 @@ import ru.stqa.pft.addressbook.model.UserData;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -38,10 +36,10 @@ public class UserPhoneTest extends TestBase {
   }
 
   private String mergePhones(UserData user) {
-    return Arrays.asList(user.getHomePhone(), user.getMobilePhone(), user.getWorkPhone())
-            .stream().filter((s) -> !s.equals(""))
+    return Arrays.asList(user.getHomePhone(), user.getMobilePhone(), user.getWorkPhone())//формируем коллекцию
+            .stream().filter((s) -> !s.equals(""))//превращаем список в поток
             .map(UserPhoneTest::cleaned)
-            .collect(Collectors.joining("\n"));
+            .collect(Collectors.joining("\n")); //склеивание
 
   }
 

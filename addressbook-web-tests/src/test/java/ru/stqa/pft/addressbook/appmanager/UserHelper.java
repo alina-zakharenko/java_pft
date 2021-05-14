@@ -139,7 +139,7 @@ public class UserHelper extends HelperBase {
 //    return userCash;
 //  }
 
-    public Users all() {
+  public Users all() {
     if (userCash != null) {
       return new Users(userCash);
     }
@@ -151,7 +151,11 @@ public class UserHelper extends HelperBase {
       String lastname = cells.get(1).getText();
       String firstname = cells.get(2).getText();
       String allPhones = cells.get(5).getText();
+      String address = cells.get(3).getText();
+      String allEmails = cells.get(4).getText();
       userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
+              .withAddress(address)
+              .withAllEmails(allEmails)
               .withAllPhones(allPhones));
     }
     return userCash;
@@ -169,14 +173,19 @@ public class UserHelper extends HelperBase {
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
     wd.navigate().back();
     return new UserData().withId(user.getId()).withFirstname(firstname).withLastname(lastname)
-            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
   }
 
   private void initUserModificationById(int id) {
-    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
-    WebElement row = checkbox.findElement(By.xpath("./../..")); //ячейка -> cтрочка
+    //метод последовательных приближений
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));//ищем чек бокс
+    WebElement row = checkbox.findElement(By.xpath("./../..")); //ячейка -> cтрочка; . - поиск с текущего элемента
     List<WebElement> cells = row.findElements(By.tagName("td")); //ищем ячейку с карандашом -> полный список ячеек и ищем все элеметы с tagName("td")
     cells.get(7).findElement(By.tagName("a")).click(); // берем нужную ячейку -> находим ссылку и кликаем по ней
 

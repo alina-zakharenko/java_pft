@@ -7,13 +7,18 @@ public class UserData {
   private int id = Integer.MAX_VALUE;
   private String firstname;
   private String lastname;
-  private String email;
   private String company;
   private String group;
   private String homePhone;
   private String mobilePhone;
   private String workPhone;
   private String allPhones;
+  private String email;
+  private String email2;
+  private String email3;
+  private String address;
+  private String allEmails;
+
 
 
 //  public UserData(String firstname, String lastname, String email, String company, String group) {
@@ -44,8 +49,9 @@ public class UserData {
     return allPhones;
   }
 
-  public void setAllPhones(String allPhones) {
-    this.allPhones = allPhones;
+
+  public String getAllEmails() {
+    return allEmails;
   }
 
   public String getHomePhone() {
@@ -72,6 +78,16 @@ public class UserData {
 
   public UserData withEmail(String email) {
     this.email = email;
+    return this;
+  }
+
+  public UserData withEmail2(String email2) {
+    this.email2 = email2;
+    return this;
+  }
+
+  public UserData withEmail3(String email3) {
+    this.email3 = email3;
     return this;
   }
 
@@ -111,6 +127,26 @@ public class UserData {
     return this;
   }
 
+  public UserData withAllEmails(String allEmails) {
+    this.allEmails = allEmails;
+    return this;
+  }
+  
+
+  public UserData withAddress(String address) {
+    this.address = address;
+    return this;
+  }
+
+
+  public String getEmail2() {
+    return email2;
+  }
+
+  public String getEmail3() {
+    return email3;
+  }
+
   public String getFirstname() {
     return firstname;
   }
@@ -129,6 +165,15 @@ public class UserData {
 
   public String getGroup() {
     return group;
+  }
+
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   @Override
@@ -154,6 +199,7 @@ public class UserData {
   public int hashCode() {
     return Objects.hash(id, firstname, lastname);
   }
+
 
 
 }
