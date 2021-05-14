@@ -6,6 +6,10 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -27,12 +31,21 @@ public class UserPhoneTest extends TestBase {
     UserData user = app.user().all().iterator().next(); //загружаем множество контактов + выбираем любой случайным образом
     UserData userInfoFromEditForm = app.user().infoFromEditForm(user); // метод, загружающий инфу о контактах из формы релактирования
 
-    assertThat(user.getHomePhone(), equalTo(cleaned(userInfoFromEditForm.getHomePhone())));
-    assertThat(user.getMobilePhone(), equalTo(cleaned(userInfoFromEditForm.getMobilePhone())));
-    assertThat(user.getWorkPhone(), equalTo(cleaned(userInfoFromEditForm.getWorkPhone())));
+    assertThat(user.getAllPhones(), equalTo(mergePhones(userInfoFromEditForm)));
+//    assertThat(user.getHomePhone(), equalTo(cleaned(userInfoFromEditForm.getHomePhone())));
+//    assertThat(user.getMobilePhone(), equalTo(cleaned(userInfoFromEditForm.getMobilePhone())));
+//    assertThat(user.getWorkPhone(), equalTo(cleaned(userInfoFromEditForm.getWorkPhone())));
   }
 
-  public String cleaned(String phone) {
+  private String mergePhones(UserData user) {
+    return Arrays.asList(user.getHomePhone(), user.getMobilePhone(), user.getWorkPhone())
+            .stream().filter((s) -> !s.equals(""))
+            .map(UserPhoneTest::cleaned)
+            .collect(Collectors.joining("\n"));
+
+  }
+
+  public static String cleaned(String phone) {
     return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
   }
 }

@@ -13,6 +13,7 @@ public class UserData {
   private String homePhone;
   private String mobilePhone;
   private String workPhone;
+  private String allPhones;
 
 
 //  public UserData(String firstname, String lastname, String email, String company, String group) {
@@ -37,6 +38,14 @@ public class UserData {
 
   public int getId() {
     return id;
+  }
+
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public void setAllPhones(String allPhones) {
+    this.allPhones = allPhones;
   }
 
   public String getHomePhone() {
@@ -97,6 +106,10 @@ public class UserData {
     return this;
   }
 
+  public UserData withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
 
   public String getFirstname() {
     return firstname;

@@ -121,7 +121,25 @@ public class UserHelper extends HelperBase {
   private Users userCash = null;
 
 
-  public Users all() {
+//  public Users all() {
+//    if (userCash != null) {
+//      return new Users(userCash);
+//    }
+//    userCash = new Users();  //создаем список, который будет заполняться
+//    List<WebElement> rows = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
+//    for (WebElement row : rows) {
+//      List<WebElement> cells = row.findElements(By.tagName("td"));
+//      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+//      String lastname = cells.get(1).getText();
+//      String firstname = cells.get(2).getText();
+//      String[] phones = cells.get(5).getText().split("\n");
+//      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
+//              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+//    }
+//    return userCash;
+//  }
+
+    public Users all() {
     if (userCash != null) {
       return new Users(userCash);
     }
@@ -132,13 +150,12 @@ public class UserHelper extends HelperBase {
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lastname = cells.get(1).getText();
       String firstname = cells.get(2).getText();
-      String[] phones = cells.get(5).getText().split("\n");
+      String allPhones = cells.get(5).getText();
       userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
-              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+              .withAllPhones(allPhones));
     }
     return userCash;
   }
-
 
   public int count() {
     return wd.findElements(By.name("selected[]")).size();
