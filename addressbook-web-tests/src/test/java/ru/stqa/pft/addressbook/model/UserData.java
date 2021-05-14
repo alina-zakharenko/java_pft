@@ -39,6 +39,18 @@ public class UserData {
     return id;
   }
 
+  public String getHomePhone() {
+    return homePhone;
+  }
+
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+
+  public String getWorkPhone() {
+    return workPhone;
+  }
+
   public UserData withFirstname(String firstname) {
     this.firstname = firstname;
     return this;

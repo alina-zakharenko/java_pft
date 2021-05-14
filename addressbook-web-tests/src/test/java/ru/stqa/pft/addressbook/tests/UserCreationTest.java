@@ -22,7 +22,7 @@ public class UserCreationTest extends TestBase {
     Users before = app.user().all();
     //UserData user = new UserData("Harry", "Potter", "harrypotter@magic.com", "", "test2");
     //UserData user = new UserData("Hermine", "Granger", "herminegranger@magic.com", "", "test2");
-    UserData user = new UserData().withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test3");
+    UserData user = new UserData().withFirstname("Hermine").withLastname("Granger").withEmail("herminegranger@magic.com").withCompany("").withGroup("test3").withHomePhone("9").withMobilePhone("8").withWorkPhone("7");
     app.user().create(user);
     app.goTo().homePage();
     assertThat(app.user().count(), equalTo(before.size() + 1));

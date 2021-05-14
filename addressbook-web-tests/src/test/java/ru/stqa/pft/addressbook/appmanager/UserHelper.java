@@ -5,14 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserHelper extends HelperBase {
 
@@ -105,6 +101,9 @@ public class UserHelper extends HelperBase {
     typeUserData(By.name("lastname"), userData.getLastname());
     typeUserData(By.name("email"), userData.getEmail());
     typeUserData(By.name("company"), userData.getCompany());
+    typeUserData(By.name("home"), userData.getHomePhone());
+    typeUserData(By.name("mobile"), userData.getMobilePhone());
+    typeUserData(By.name("work"), userData.getWorkPhone());
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
     } else {
@@ -119,51 +118,32 @@ public class UserHelper extends HelperBase {
   }
 
 
-//  public List<UserData> list() {
-//    List<UserData> users = new ArrayList<>();  //создаем список, который будет заполняться
-//    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
-//    for (WebElement element : elements) {
-//      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
-//      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
-//      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
-//      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));// передается в конструктор и используется при сравнении
-//
-//      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));
-//      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
-//    }
-//    return users;
-//  }
-
   private Users userCash = null;
+
 
   public Users all() {
     if (userCash != null) {
       return new Users(userCash);
     }
     userCash = new Users();  //создаем список, который будет заполняться
-    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
-    for (WebElement element : elements) {
-      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
-      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
-      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
-      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));
-      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));// передается в конструктор и используется при сравнении
-      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
+    List<WebElement> rows = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
+    for (WebElement row : rows) {
+      List<WebElement> cells = row.findElements(By.tagName("td"));
+      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+      String lastname = cells.get(1).getText();
+      String firstname = cells.get(2).getText();
+      String[] phones = cells.get(5).getText().split("\n");
+      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
+              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
     }
-    return  new Users(userCash);
+    return userCash;
   }
 
-  //  public void getCompany(UserData userData) {
-//    type(By.name("company"), userData.getCompany());
-//  }
-//
-//  public boolean isThereAnUser() {
-//    return isElementPresent(By.name("selected[]"));
-//  }
-//
+
   public int count() {
     return wd.findElements(By.name("selected[]")).size();
   }
+
 
   public UserData infoFromEditForm(UserData user) {
     initUserModificationById(user.getId()); //выбор контакт по идентификатору
@@ -177,7 +157,7 @@ public class UserHelper extends HelperBase {
             .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
   }
 
-  private void initUserModificationById(int id){
+  private void initUserModificationById(int id) {
     WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
     WebElement row = checkbox.findElement(By.xpath("./../..")); //ячейка -> cтрочка
     List<WebElement> cells = row.findElements(By.tagName("td")); //ищем ячейку с карандашом -> полный список ячеек и ищем все элеметы с tagName("td")
@@ -187,9 +167,57 @@ public class UserHelper extends HelperBase {
     //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click(); //найти строку, внутри которой есть чекбокс с заданным айди
     //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
   }
+
+//to be removed
+
+  //  public void getCompany(UserData userData) {
+//    type(By.name("company"), userData.getCompany());
+//  }
+//
+//  public boolean isThereAnUser() {
+//    return isElementPresent(By.name("selected[]"));
+//  }
+//
+
 //    public void changeUserInfo(UserData userData) {
 //    getCompany(userData);
 //    updateData();
 //  }
+
+
+  //  public Users all() {
+//    if (userCash != null) {
+//      return new Users(userCash);
+//    }
+//    userCash = new Users();  //создаем список, который будет заполняться
+//    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
+//    for (WebElement element : elements) {
+//      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
+//      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
+//      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
+//      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));
+//      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));// передается в конструктор и используется при сравнении
+//      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
+//    }
+//    return new Users(userCash);
+//  }
+
+
+//  public Set<UserData> all() {
+//    Set<UserData> users = new HashSet<>();
+//    List<WebElement> rows = wd.findElements(By.name("entry"));
+//    for (WebElement row : rows) {
+//      List<WebElement> cells = row.findElements(By.tagName("td"));
+//      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
+//      String lastname = cells.get(1).getText();
+//      String firstname = cells.get(2).getText();
+//      String[] phones = cells.get(5).getText().split("\n");
+//      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
+//              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+//    }
+//    return users;
+//  }
+
+
 }
 

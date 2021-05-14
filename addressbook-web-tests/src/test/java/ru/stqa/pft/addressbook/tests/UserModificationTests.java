@@ -1,22 +1,14 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class UserModificationTests extends TestBase {
   WebDriver wd;
@@ -36,7 +28,7 @@ public class UserModificationTests extends TestBase {
     Users before = app.user().all();
     UserData modifiedUser = before.iterator().next();// next() - вернет первый элемент множества
     UserData user = new UserData()
-            .withId(modifiedUser.getId()).withFirstname("Vasja").withLastname("Petrov").withEmail("Ii@magic.com").withCompany("").withGroup("test1");// сохраняем старый идентификатор
+            .withId(modifiedUser.getId()).withFirstname("Hermine").withLastname("Granger").withEmail("herminegranger@magic.com").withCompany("").withGroup("test1").withWorkPhone("6").withMobilePhone("5").withHomePhone("4");// сохраняем старый идентификатор
     app.goTo().homePage();
     app.user().modify(user);
     app.goTo().homePage();
