@@ -41,8 +41,9 @@ public class UserHelper extends HelperBase {
   }
 
   public void modify(UserData user) {
-    selectUserById(user.getId());
-    editUserButton();
+    //selectUserById(user.getId());
+    //editUserButton();
+    initUserModificationById(user.getId());
     fillUserInfo(user, false);
     acceptUserDataModificationLocator();
     userCash = null;
