@@ -98,24 +98,19 @@ public class UserHelper extends HelperBase {
 
   //data
   public void fillUserInfo(UserData userData, boolean creation) {
-    typeUserData(By.name("firstname"), userData.getFirstname());
-    typeUserData(By.name("lastname"), userData.getLastname());
-    typeUserData(By.name("email"), userData.getEmail());
-    typeUserData(By.name("company"), userData.getCompany());
-    typeUserData(By.name("home"), userData.getHomePhone());
-    typeUserData(By.name("mobile"), userData.getMobilePhone());
-    typeUserData(By.name("work"), userData.getWorkPhone());
+    type(By.name("firstname"), userData.getFirstname());
+    type(By.name("lastname"), userData.getLastname());
+    type(By.name("email"), userData.getEmail());
+    type(By.name("company"), userData.getCompany());
+    type(By.name("home"), userData.getHomePhone());
+    type(By.name("mobile"), userData.getMobilePhone());
+    type(By.name("work"), userData.getWorkPhone());
+    attach(By.name("photo"), userData.getPhoto());//getAbsolutePath - указываем путь явно
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
-  }
-
-  private void typeUserData(By locator, String text) {
-    wd.findElement(locator).click();
-    wd.findElement(locator).clear();
-    wd.findElement(locator).sendKeys(text);
   }
 
 
@@ -196,6 +191,14 @@ public class UserHelper extends HelperBase {
   }
 
 //to be removed
+
+//
+//  private void typeUserData(By locator, String text) {
+//    wd.findElement(locator).click();
+//    wd.findElement(locator).clear();
+//    wd.findElement(locator).sendKeys(text);
+//  }
+
 
   //  public void getCompany(UserData userData) {
 //    type(By.name("company"), userData.getCompany());
