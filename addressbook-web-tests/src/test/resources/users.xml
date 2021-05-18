@@ -1,0 +1,32 @@
+<list>
+  <user>
+    <firstname>Ron</firstname>
+    <lastname>Weasley</lastname>
+    <company></company>
+    <group>test3</group>
+    <homePhone>9</homePhone>
+    <mobilePhone>8</mobilePhone>
+    <workPhone>7</workPhone>
+    <email>RonWeasley@magic.com</email>
+  </user>
+  <user>
+    <firstname>Ron</firstname>
+    <lastname>Weasley</lastname>
+    <company></company>
+    <group>test3</group>
+    <homePhone>9</homePhone>
+    <mobilePhone>8</mobilePhone>
+    <workPhone>7</workPhone>
+    <email>RonWeasley@magic.com</email>
+  </user>
+  <user>
+    <firstname>Ron</firstname>
+    <lastname>Weasley</lastname>
+    <company></company>
+    <group>test3</group>
+    <homePhone>9</homePhone>
+    <mobilePhone>8</mobilePhone>
+    <workPhone>7</workPhone>
+    <email>RonWeasley@magic.com</email>
+  </user>
+</list>
