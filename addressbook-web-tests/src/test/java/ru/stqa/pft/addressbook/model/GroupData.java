@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -10,8 +11,11 @@ public class GroupData {
 
   @XStreamOmitField
   private int id = Integer.MAX_VALUE;
+  @Expose
   private String name;    //null
+  @Expose
   private String header;  //null
+  @Expose
   private String footer;  //null
 
   public String getName() {
