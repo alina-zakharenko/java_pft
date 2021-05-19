@@ -32,7 +32,7 @@ public class UserDataGenerator {
     JCommander jCommander = new JCommander(generator);
     try {
       jCommander.parse(args);
-    }catch (ParameterException ex){
+    } catch (ParameterException ex) {
       jCommander.usage();
       return;
     }
@@ -49,14 +49,6 @@ public class UserDataGenerator {
       saveAsJson(users, new File(file));
     } else
       System.out.println("Unrecognized format " + format);
-    }
-
-  private void saveAsJson(List<UserData> users, File file) throws IOException {
-    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-    String json = gson.toJson(users);
-    Writer writer = new FileWriter(file);
-    writer.write(json);
-    writer.close();
   }
 
   private List<UserData> generateUsers(int count) {
@@ -73,25 +65,33 @@ public class UserDataGenerator {
   }
 
 
-  private void saveAsCsv(List<UserData> users, File file) throws IOException {
-    Writer writer = new FileWriter(file);
-    for (UserData user : users) {
-      writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s \n",
-              user.getFirstname(), user.getLastname(),
-              user.getEmail(),user.getCompany(),
-              user.getGroup(), user.getHomePhone(),
-              user.getMobilePhone(), user.getWorkPhone()));
+  private void saveAsJson(List<UserData> users, File file) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+    String json = gson.toJson(users);
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
     }
-    writer.close();
+  }
+
+
+  private void saveAsCsv(List<UserData> users, File file) throws IOException {
+    try (Writer writer = new FileWriter(file)) {
+      for (UserData user : users) {
+        writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s \n",
+                user.getFirstname(), user.getLastname(),
+                user.getEmail(), user.getCompany(),
+                user.getGroup(), user.getHomePhone(),
+                user.getMobilePhone(), user.getWorkPhone()));
+      }
+    }
   }
 
   private void saveAsXml(List<UserData> users, File file) throws IOException {
     XStream xstream = new XStream();
     xstream.processAnnotations(UserData.class);
     String xml = xstream.toXML(users);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
-
 }

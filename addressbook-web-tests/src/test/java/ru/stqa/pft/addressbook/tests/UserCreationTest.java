@@ -24,31 +24,34 @@ public class UserCreationTest extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validUsersFromXml() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.xml")));
-    String xml = "";
-    String line = reader.readLine();
-    while (line != null) {
-      xml += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.xml")))) {
+      String xml = "";
+      String line = reader.readLine();
+      while (line != null) {
+        xml += line;
+        line = reader.readLine();
+      }
+      XStream xstream = new XStream();
+      xstream.processAnnotations(UserData.class);
+      List<UserData> users = (List<UserData>) xstream.fromXML(xml);
+      return users.stream().map((u) -> new Object[]{u}).collect(Collectors.toList()).iterator();
     }
-    XStream xstream = new XStream();
-    xstream.processAnnotations(UserData.class);
-    List<UserData> users = (List<UserData>) xstream.fromXML(xml);
-    return users.stream().map((u) -> new Object[]{u}).collect(Collectors.toList()).iterator();
   }
 
   @DataProvider
   public Iterator<Object[]> validUsersFromJson() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.json")));
-    String json = "";
-    String line = reader.readLine();
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.json")))) {
+      String json = "";
+      String line = reader.readLine();
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<UserData> users = gson.fromJson(json, new TypeToken<List<UserData>>() {
+      }.getType());
+      return users.stream().map((u) -> new Object[]{u}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<UserData> users = gson.fromJson(json, new TypeToken<List<UserData>>(){}.getType());
-    return users.stream().map((u) -> new Object[]{u}).collect(Collectors.toList()).iterator();
   }
 
 
