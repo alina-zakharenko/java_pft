@@ -66,6 +66,7 @@ public class UserData {
   @Transient
   private String allEmails;
 
+  @Expose
   @Column(name = "photo")
   @Type(type = "text")
   private String photo;

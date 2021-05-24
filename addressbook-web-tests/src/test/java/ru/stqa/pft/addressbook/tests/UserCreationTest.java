@@ -78,7 +78,7 @@ public class UserCreationTest extends TestBase {
 
 
 
-  @Test(dataProvider = "validUsersFromCsv")
+  @Test(dataProvider = "validUsersFromJson")
   public void testNewUserCreation(UserData user) throws Exception {
     app.goTo().homePage();
     Users before = app.db().users();

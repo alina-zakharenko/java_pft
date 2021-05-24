@@ -5,6 +5,7 @@
     "company": "",
     "group": "test3",
     "homePhone": "9",
-    "email": "RonWeasley@magic.com"
+    "email": "RonWeasley@magic.com",
+    "photo": "src\\test\\resources\\pft.png"
   }
 ]
