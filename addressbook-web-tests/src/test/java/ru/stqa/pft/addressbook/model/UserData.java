@@ -194,7 +194,7 @@ public class UserData {
     return this;
   }
 
-  public File getPhoto(){
+  public File getPhoto() {
     return new File(photo);
   }
 
@@ -258,6 +258,5 @@ public class UserData {
   public int hashCode() {
     return Objects.hash(id, firstname, lastname);
   }
-
 
 }
