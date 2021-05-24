@@ -5,6 +5,8 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import com.thoughtworks.xstream.XStream;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.UserData;
@@ -59,29 +61,31 @@ public class UserDataGenerator {
               .withFirstname(String.format("Ron", i)).withLastname(String.format("Weasley", i))
               .withEmail(String.format("RonWeasley@magic.com", i)).withCompany(String.format("", i))
               .withGroup(String.format("test3", i)).withHomePhone(String.format("9", i))
-              .withMobilePhone(String.format("8", i)).withWorkPhone(String.format("7", i)));
+              .withPhoto(new File("src/test/resources/pft.png"))
+      );
     }
     return users;
   }
 
-
   private void saveAsJson(List<UserData> users, File file) throws IOException {
-    Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+    JsonSerializer<File> serializer = (src, typeOfSrc, context) -> new JsonPrimitive(src.getPath());
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(File.class, serializer)
+            .setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     String json = gson.toJson(users);
     try (Writer writer = new FileWriter(file)) {
       writer.write(json);
     }
   }
 
-
   private void saveAsCsv(List<UserData> users, File file) throws IOException {
     try (Writer writer = new FileWriter(file)) {
       for (UserData user : users) {
-        writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s \n",
+        writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s \n",
                 user.getFirstname(), user.getLastname(),
                 user.getEmail(), user.getCompany(),
                 user.getGroup(), user.getHomePhone(),
-                user.getMobilePhone(), user.getWorkPhone()));
+                user.getMobilePhone(), user.getWorkPhone(), user.getPhoto()));
       }
     }
   }

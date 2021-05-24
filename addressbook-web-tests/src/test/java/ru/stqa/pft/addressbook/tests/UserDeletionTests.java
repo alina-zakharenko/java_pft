@@ -14,22 +14,22 @@ public class UserDeletionTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
-    app.goTo().homePage();
-    if (app.user().all().size() == 0) {
+    if (app.db().users().size() == 0) {
+      app.goTo().homePage();
       app.user().create(new UserData()
-              .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1").withHomePhone("555").withMobilePhone("444").withWorkPhone("333"));
-
+              .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1"));
     }
+    app.goTo().homePage();
   }
 
   @Test //(enabled = false)
   public void testUserDeletionTest() throws Exception {
-    Users before = app.user().all(); //список before
+    Users before = app.db().users();
     UserData deletedUser = before.iterator().next();// next() - вернет первый элемент множества
     app.user().delete(deletedUser);
     app.goTo().homePage();
     assertThat(app.user().count(), equalTo(before.size() - 1));
-    Users after = app.user().all();
+    Users after = app.db().users();
     assertThat(after, CoreMatchers.equalTo(before.without(deletedUser)));
   }
 

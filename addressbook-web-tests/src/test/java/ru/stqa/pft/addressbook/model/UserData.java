@@ -193,7 +193,7 @@ public class UserData {
     return this;
   }
 
-  public File getPhoto() {
+  public File getPhoto(){
     return new File(photo);
   }
 
