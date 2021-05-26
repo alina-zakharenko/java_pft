@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
@@ -33,7 +34,9 @@ public class UserCreationTest extends TestBase {
       list.add(new Object[] {new UserData()
               .withFirstname(split[0]).withLastname(split[1])
               .withEmail(split[2]).withCompany(split[3])
-              .withGroup(split[4]).withHomePhone(split[5])
+              //.withGroup(split[4])
+              .inGroup(new GroupData().withFooter("").withHeader("").withName("test3"))
+              .withHomePhone(split[5])
               .withMobilePhone(split[6]).withWorkPhone(split[7])
               .withPhoto(new File("src/test/resources/pft.png"))});
       line = reader.readLine();

@@ -1,9 +1,8 @@
 [
   {
-    "firstname": "Ron",
+    "firstname": "Harry",
     "lastname": "Weasley",
     "company": "",
-    "group": "test3",
     "homePhone": "9",
     "email": "RonWeasley@magic.com",
     "photo": "src\\test\\resources\\pft.png"

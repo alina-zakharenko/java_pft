@@ -18,7 +18,9 @@ public class UserPhoneTest extends TestBase {
     app.goTo().homePage();
     if (app.user().all().size() == 0) {
       app.user().create(new UserData()
-              .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("").withGroup("test1").withHomePhone("111").withMobilePhone("222").withWorkPhone("333"));
+              .withFirstname("Ron").withLastname("Weasley").withEmail("ronWeasley@magic.com").withCompany("")
+              //.withGroup("test1")
+              .withHomePhone("111").withMobilePhone("222").withWorkPhone("333"));
 
     }
   }

@@ -49,6 +49,34 @@ public class UserHelper extends HelperBase {
     userCash = null;
   }
 
+  public void addToGroup(UserData user) {
+    initAddUserToGroupById(user.getId());
+    addTo();
+    userCash = null;
+  }
+
+  private void addTo() {
+    click(By.tagName("select"));
+    wd.findElement(By.cssSelector(".right > select > option:nth-child(2)")).click();
+    click(By.name("add"));
+    click(By.xpath("//div[@id='content']/div/i/a"));
+    //click(By.name("selected[]"));
+    //click(By.name("remove"));
+  }
+
+  public void deleteFromGroup() {
+    deleteFrom();
+    userCash = null;
+  }
+
+  private void deleteFrom() {
+    click(By.tagName("select"));
+    wd.findElement(By.cssSelector("#right > select > option:nth-child(4)")).click();
+    click(By.xpath("//td/input"));
+    click(By.name("remove"));
+
+  }
+
   public void editUser(int index) {
     wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
@@ -105,9 +133,12 @@ public class UserHelper extends HelperBase {
     type(By.name("home"), userData.getHomePhone());
     type(By.name("mobile"), userData.getMobilePhone());
     type(By.name("work"), userData.getWorkPhone());
-    attach(By.name("photo"), userData.getPhoto());//getAbsolutePath - указываем путь явно
+    attach(By.name("photo"), userData.getPhoto());
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+      if (userData.getGroups().size() > 0) {
+        Assert.assertTrue(userData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroups().iterator().next().getName());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -188,6 +219,12 @@ public class UserHelper extends HelperBase {
     //wd.findElement(By.xpath(String.format("//input[value='%s']/../../td[8]/a", id))).click(); //находим чекбокс - на 2 уровня вверх - ищем 8 ячейку -- внутри ссылку - click
     //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click(); //найти строку, внутри которой есть чекбокс с заданным айди
     //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+  }
+
+
+  private void initAddUserToGroupById(int id) {
+    WebElement checkbox = wd.findElement(By.name("selected[]"));//ищем чек бокс
+    checkbox.click();
   }
 
 //to be removed

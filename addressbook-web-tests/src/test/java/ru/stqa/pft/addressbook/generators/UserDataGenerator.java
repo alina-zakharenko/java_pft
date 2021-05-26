@@ -60,7 +60,8 @@ public class UserDataGenerator {
       users.add(new UserData()
               .withFirstname(String.format("Ron", i)).withLastname(String.format("Weasley", i))
               .withEmail(String.format("RonWeasley@magic.com", i)).withCompany(String.format("", i))
-              .withGroup(String.format("test3", i)).withHomePhone(String.format("9", i))
+              //.withGroup(String.format("test3", i))
+              .withHomePhone(String.format("9", i))
               .withPhoto(new File("src/test/resources/pft.png"))
       );
     }
@@ -84,7 +85,8 @@ public class UserDataGenerator {
         writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s \n",
                 user.getFirstname(), user.getLastname(),
                 user.getEmail(), user.getCompany(),
-                user.getGroup(), user.getHomePhone(),
+                user.getGroups(),
+                user.getHomePhone(),
                 user.getMobilePhone(), user.getWorkPhone(), user.getPhoto()));
       }
     }
