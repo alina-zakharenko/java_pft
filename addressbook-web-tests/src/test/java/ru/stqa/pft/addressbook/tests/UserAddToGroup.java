@@ -5,11 +5,15 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.*;
 
 import java.io.File;
+import java.util.Iterator;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserAddToGroup extends TestBase {
+
+  private int maxId;
+
 
   @BeforeMethod
   public void ensurePreconditionsUsers() {
@@ -28,30 +32,128 @@ public class UserAddToGroup extends TestBase {
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("test1"));
     }
+    app.goTo().homePage();
   }
 
-  @Test //(enabled = false)
+  @Test //(enabled = false)  Для первого теста реализуйте поиск такого контакта, который не добавлен в группу.
+  // А если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создавайте новую группу.
+
+  /*
+   * 1. найти контакт, который не добавлен в группу
+   * 1а. если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создавайте новую группу
+   * 2. добавить контакт в группу
+   * 3.
+   * 4.
+   * */
   public void testAddUserToGroup() throws Exception {
-    Users usersBefore = app.db().users();
-    System.out.println("Контакты до " + usersBefore);
-    app.goTo().homePage();
-    UserData user = new UserData();
-    app.user().addToGroup(user);
-    Users usersAfter = app.db().users();
-    System.out.println("Контакты после " + usersAfter);
-    assertThat(usersBefore.size(), equalTo(usersAfter.size()));
-    app.goTo().homePage();
-  }
+    Users allUsersBefore = app.db().users();// список контактов
+    Groups allGroups = app.db().groups();// список групп
+
+    UserData randomUser = allUsersBefore.iterator().next(); // поиск любого контакта
+    GroupData randomGroup = allGroups.iterator().next(); // поиск любой группы
+    UserData userWithoutGroup = null;
+    GroupData groupData = null;
 
 
-  @Test //(enabled = false)
-  public void testDeleteUserFromGroup() throws Exception {
-    Users usersBefore = app.db().users();
-    System.out.println("Контакты до " + usersBefore);
-    app.goTo().homePage();
-    app.user().deleteFromGroup();
-    Users usersAfter = app.db().users();
-    System.out.println("Контакты после " + usersAfter);
-    app.goTo().homePage();
+    //все контакты добавлены во все группы
+    for (Iterator<GroupData> iterator = allGroups.iterator(); iterator.hasNext(); ) {
+      groupData = iterator.next();
+      //поиск такого контакта, который не добавлен в группу
+      userWithoutGroup = app.user().findUserWithoutGroup(allUsersBefore, groupData);
+      if (userWithoutGroup != null) { //контакт без группы существует
+        app.user().addToGroup(userWithoutGroup, groupData);
+        break;
+      }
+
+    }
+    if (userWithoutGroup == null) {
+      //то в таком случае предварительно создавайте новую группу
+      GroupData newGroup = new GroupData().withName("New Test Group");
+      app.goTo().groupPage();
+      app.group().create(newGroup);
+      app.goTo().homePage();
+      app.user().addToGroup(randomUser, newGroup);
+    }
+
+    //  В качестве проверок реализуйте сравнение по содержимому списков групп того контакта, который был добавлен в группу
+    Groups groupBefore = userWithoutGroup.getGroups();
+    Users allUsersAfter = app.db().users();
+    int givenId = userWithoutGroup.getId();
+    Groups newGroupsList = allUsersAfter.stream().filter(u -> u.getId() == givenId).findFirst().get().getGroups();
+
+    assertThat(groupBefore, equalTo(newGroupsList));
   }
 }
+
+//  public void testAddUserToGroup() throws Exception {
+//    // получить группу в которую планируется добавляться контакт
+//    GroupData modifyGroup = app.db().groups().iterator().next();
+//
+//    // создать изменяемый контакт
+//    UserData modifyContact = new UserData();
+//
+//    // получить список всех контактов
+//    Users getContactsListBefore = app.db().users();
+//    int i = 0;
+//
+//    // Добавьте цикл с проверкой, что хотя бы у одного пользователя нет группы, и добавьте его в выбранную группу
+//    for (UserData contact : getContactsListBefore) {
+//      if (contact.getGroups().size() == 0) {
+//        modifyContact = contact;
+//        app.user().addToGroup(modifyContact, modifyGroup);
+//        break;
+//      }
+//      i += 1;
+//
+//      // Если пользователь без группы не найден создать нового и добавить его в выбранную группу
+//      if (i == getContactsListBefore.size()) {
+//        app.goTo().homePage();
+//        app.user().create(new UserData().withFirstname("TestName"));
+//        app.goTo().homePage();
+//        Users getUsersAfterCreation = app.db().users();
+//        for (UserData eachUser : getUsersAfterCreation) {
+//          if (eachUser.getId() > maxId) {
+//            modifyContact = eachUser;
+//            app.user().addToGroup(modifyContact, modifyGroup);
+//          }
+//        }
+//      }
+//    }
+//    Groups groupBefore = modifyContact.ActionsWithGroup(modifyGroup, true).getGroups();
+//
+//    // После добавления пользователя в группу получить обновленный список и проверить, действительно ли пользователь был добавлен в группу
+//    Users getContactsListAfter = app.db().users();
+//    int givenId = modifyContact.getId();
+//    Groups newGroupsList = getContactsListAfter.stream().filter(c -> c.getId() == givenId).findFirst().get().getGroups();
+//    assertThat(groupBefore, equalTo(newGroupsList));
+//  }
+//}
+
+
+//    @Test //(enabled = false)  Для второго теста реализуйте поиск такого контакта, который добавлен в группу.
+//    // А если в приложении нет контактов, добавленных в группы, то в таком случае предварительно добавляйте любой контакт в любую группу.
+//    public void testDeleteUserFromGroup () throws Exception {
+//      Users usersBefore = app.db().users();
+//      //System.out.println("Контакты до " + usersBefore);
+//      app.goTo().homePage();
+//      UserData modifiedUser = usersBefore.iterator().next();
+//      UserData user = new UserData().withId(modifiedUser.getId())
+//              .withFirstname("Hermine").withLastname("Granger").withEmail("herminegranger@magic.com").withCompany("")
+//              .inGroup(new GroupData().withFooter("").withHeader("").withName("test3"))
+//              .withWorkPhone("6").withMobilePhone("5").withHomePhone("4").withPhoto(new File("src/test/resources/pft.png"));
+//      System.out.println("Контакты до " + user.getGroups());
+//      if (user.getGroups().size() != 0) {
+//        app.user().deleteFromGroup();
+//      } else {
+//        app.goTo().groupPage();
+//        app.group().create(new GroupData().withName("test4"));
+//        app.goTo().homePage();
+//        app.user().addToGroup(user);
+//      }
+//      app.user().deleteFromGroup();
+//      //Users usersAfter = app.db().users();
+//      //System.out.println("Контакты после " + usersAfter);
+//      System.out.println("Контакты после " + user.getGroups());
+//      app.goTo().homePage();
+//    }
+//  }

@@ -5,9 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class UserHelper extends HelperBase {
@@ -49,19 +52,47 @@ public class UserHelper extends HelperBase {
     userCash = null;
   }
 
-  public void addToGroup(UserData user) {
+  public void addToExistingGroup(UserData user) {
     initAddUserToGroupById(user.getId());
     addTo();
-    userCash = null;
+    //userCash = null;
   }
 
+  public void addToGroup(UserData user, GroupData group) {
+    initAddUserToGroupById(user.getId());
+    Select drpGroup = new Select(wd.findElement(By.name("to_group")));
+    drpGroup.selectByVisibleText(group.getName());
+    addTo();
+    //userCash = null;
+  }
+
+  public UserData findUserWithoutGroup(Users users, GroupData group) {
+    Iterator<UserData> iterator = users.iterator();
+    while (iterator.hasNext()) {
+      UserData nextUser = iterator.next();
+      if (nextUser.getGroups().contains(group)) {
+        return nextUser;
+      }
+    }
+    return null;
+  }
+
+  public boolean areAllUsersInAllGroups(Users users, Groups allGroups){
+    Iterator<UserData> iterator = users.iterator();
+    while (iterator.hasNext()) {
+      UserData nextUser = iterator.next();
+      if (nextUser.getGroups() != allGroups) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+
+
   private void addTo() {
-    click(By.tagName("select"));
-    wd.findElement(By.cssSelector(".right > select > option:nth-child(2)")).click();
     click(By.name("add"));
-    click(By.xpath("//div[@id='content']/div/i/a"));
-    //click(By.name("selected[]"));
-    //click(By.name("remove"));
   }
 
   public void deleteFromGroup() {
@@ -71,7 +102,7 @@ public class UserHelper extends HelperBase {
 
   private void deleteFrom() {
     click(By.tagName("select"));
-    wd.findElement(By.cssSelector("#right > select > option:nth-child(4)")).click();
+    wd.findElement(By.cssSelector("#right > select > option:nth-child(1)")).click();
     click(By.xpath("//td/input"));
     click(By.name("remove"));
 
@@ -223,8 +254,9 @@ public class UserHelper extends HelperBase {
 
 
   private void initAddUserToGroupById(int id) {
-    WebElement checkbox = wd.findElement(By.name("selected[]"));//ищем чек бокс
-    checkbox.click();
+//    WebElement checkbox = wd.findElement(By.name("selected[]"));//ищем чек бокс
+//    checkbox.click();
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
 //to be removed
