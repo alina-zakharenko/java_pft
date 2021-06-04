@@ -70,8 +70,6 @@ public class UserAddToGroup extends TestBase {
       app.goTo().homePage();
       app.user().addToGroup(randomUser, newGroup);
     }
-
-
   }
 
 
