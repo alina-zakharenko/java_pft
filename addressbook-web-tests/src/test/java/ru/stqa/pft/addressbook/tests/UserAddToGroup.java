@@ -46,88 +46,35 @@ public class UserAddToGroup extends TestBase {
    * 4.
    * */
   public void testAddUserToGroup() throws Exception {
-    Users allUsersBefore = app.db().users();// список контактов
+    Users allUsers = app.db().users();// список контактов
     Groups allGroups = app.db().groups();// список групп
 
-    UserData randomUser = allUsersBefore.iterator().next(); // поиск любого контакта
+    UserData randomUser = allUsers.iterator().next(); // поиск любого контакта
     GroupData randomGroup = allGroups.iterator().next(); // поиск любой группы
     UserData userWithoutGroup = null;
     GroupData groupData = null;
-
-
     //все контакты добавлены во все группы
     for (Iterator<GroupData> iterator = allGroups.iterator(); iterator.hasNext(); ) {
       groupData = iterator.next();
-      //поиск такого контакта, который не добавлен в группу
-      userWithoutGroup = app.user().findUserWithoutGroup(allUsersBefore, groupData);
+      //поиск такого конт{акта, который не добавлен в группу
+      userWithoutGroup = app.user().findUserWithoutGroup(allUsers, groupData);
       if (userWithoutGroup != null) { //контакт без группы существует
         app.user().addToGroup(userWithoutGroup, groupData);
         break;
       }
-
     }
     if (userWithoutGroup == null) {
       //то в таком случае предварительно создавайте новую группу
       GroupData newGroup = new GroupData().withName("New Test Group");
-      app.goTo().groupPage();
       app.group().create(newGroup);
       app.goTo().homePage();
       app.user().addToGroup(randomUser, newGroup);
     }
 
-    //  В качестве проверок реализуйте сравнение по содержимому списков групп того контакта, который был добавлен в группу
-    Groups groupBefore = userWithoutGroup.getGroups();
-    Users allUsersAfter = app.db().users();
-    int givenId = userWithoutGroup.getId();
-    Groups newGroupsList = allUsersAfter.stream().filter(u -> u.getId() == givenId).findFirst().get().getGroups();
 
-    assertThat(groupBefore, equalTo(newGroupsList));
   }
-}
 
-//  public void testAddUserToGroup() throws Exception {
-//    // получить группу в которую планируется добавляться контакт
-//    GroupData modifyGroup = app.db().groups().iterator().next();
-//
-//    // создать изменяемый контакт
-//    UserData modifyContact = new UserData();
-//
-//    // получить список всех контактов
-//    Users getContactsListBefore = app.db().users();
-//    int i = 0;
-//
-//    // Добавьте цикл с проверкой, что хотя бы у одного пользователя нет группы, и добавьте его в выбранную группу
-//    for (UserData contact : getContactsListBefore) {
-//      if (contact.getGroups().size() == 0) {
-//        modifyContact = contact;
-//        app.user().addToGroup(modifyContact, modifyGroup);
-//        break;
-//      }
-//      i += 1;
-//
-//      // Если пользователь без группы не найден создать нового и добавить его в выбранную группу
-//      if (i == getContactsListBefore.size()) {
-//        app.goTo().homePage();
-//        app.user().create(new UserData().withFirstname("TestName"));
-//        app.goTo().homePage();
-//        Users getUsersAfterCreation = app.db().users();
-//        for (UserData eachUser : getUsersAfterCreation) {
-//          if (eachUser.getId() > maxId) {
-//            modifyContact = eachUser;
-//            app.user().addToGroup(modifyContact, modifyGroup);
-//          }
-//        }
-//      }
-//    }
-//    Groups groupBefore = modifyContact.ActionsWithGroup(modifyGroup, true).getGroups();
-//
-//    // После добавления пользователя в группу получить обновленный список и проверить, действительно ли пользователь был добавлен в группу
-//    Users getContactsListAfter = app.db().users();
-//    int givenId = modifyContact.getId();
-//    Groups newGroupsList = getContactsListAfter.stream().filter(c -> c.getId() == givenId).findFirst().get().getGroups();
-//    assertThat(groupBefore, equalTo(newGroupsList));
-//  }
-//}
+
 
 
 //    @Test //(enabled = false)  Для второго теста реализуйте поиск такого контакта, который добавлен в группу.
@@ -156,4 +103,4 @@ public class UserAddToGroup extends TestBase {
 //      System.out.println("Контакты после " + user.getGroups());
 //      app.goTo().homePage();
 //    }
-//  }
+  }
