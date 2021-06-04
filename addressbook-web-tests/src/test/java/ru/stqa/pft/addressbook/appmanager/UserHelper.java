@@ -70,6 +70,17 @@ public class UserHelper extends HelperBase {
     Iterator<UserData> iterator = users.iterator();
     while (iterator.hasNext()) {
       UserData nextUser = iterator.next();
+      if (nextUser.getGroups().isEmpty()) {
+        return nextUser;
+      }
+    }
+    return null;
+  }
+
+  public UserData findUserWithGroup(Users users, GroupData group) {
+    Iterator<UserData> iterator = users.iterator();
+    while (iterator.hasNext()) {
+      UserData nextUser = iterator.next();
       if (nextUser.getGroups().contains(group)) {
         return nextUser;
       }
@@ -95,14 +106,14 @@ public class UserHelper extends HelperBase {
     click(By.name("add"));
   }
 
-  public void deleteFromGroup() {
+  public void deleteFromGroup(UserData user,GroupData group) {
     deleteFrom();
     userCash = null;
   }
 
   private void deleteFrom() {
     click(By.tagName("select"));
-    wd.findElement(By.cssSelector("#right > select > option:nth-child(1)")).click();
+    wd.findElement(By.cssSelector("#right > select > option:nth-child(3)")).click();
     click(By.xpath("//td/input"));
     click(By.name("remove"));
 
