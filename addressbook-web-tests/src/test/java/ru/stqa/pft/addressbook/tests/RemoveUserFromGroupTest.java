@@ -39,17 +39,18 @@ public class RemoveUserFromGroupTest extends TestBase {
     Groups allGroups = app.db().groups();// список групп
 
     UserData userWithGroup = null;
-    UserData userBefore = allUsers.iterator().next();
+    //UserData userBefore = allUsers.iterator().next();
     GroupData groupData;
 
     for (Iterator<GroupData> iterator = allGroups.iterator(); iterator.hasNext(); ) {
       groupData = iterator.next();
+      //UserData userBefore = allUsers.iterator().next();
       //поиск такого контакта, который добавлен в группу и его удаление
       userWithGroup = app.user().findUserWithGroup(allUsers, groupData);
       if (userWithGroup != null) {
         app.user().deleteFromGroup(userWithGroup, groupData);
         UserData userAfter = allUsers.iterator().next();
-        assertThat(userAfter.getGroups().size(), equalTo(userBefore.getGroups().size() - 1));
+        assertThat(userAfter.getGroups().size(), equalTo(userWithGroup.getGroups().size() - 1));
         break;
 
       }
@@ -61,7 +62,7 @@ public class RemoveUserFromGroupTest extends TestBase {
       app.goTo().homePage();
       app.user().addToGroup(randomUser, randomGroup);
       UserData userAfter = allUsers.iterator().next();
-      assertThat(userAfter.getGroups().size(), equalTo(userBefore.getGroups().size() + 1));
+      assertThat(userAfter.getGroups().size(), equalTo(randomUser.getGroups().size() + 1));
     }
 
   }
