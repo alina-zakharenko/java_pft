@@ -33,9 +33,7 @@ public class AddUserToGroupTest extends TestBase {
     app.goTo().homePage();
   }
 
-  @Test //(enabled = false)  Для первого теста реализуйте поиск такого контакта, который не добавлен в группу.
-  // А если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создавайте новую группу.
-
+  @Test //(enabled = false)
   /*
    * 1. найти контакт, который не добавлен в группу
    * 1а. если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создавайте новую группу
@@ -50,7 +48,6 @@ public class AddUserToGroupTest extends TestBase {
     UserData userBefore = allUsers.iterator().next();
     GroupData groupData;
 
-    //все контакты добавлены во все группы
     for (Iterator<GroupData> iterator = allGroups.iterator(); iterator.hasNext(); ) {
       groupData = iterator.next();
       //поиск такого контакта, который не добавлен в группу
@@ -59,8 +56,8 @@ public class AddUserToGroupTest extends TestBase {
         app.user().addToGroup(userWithoutGroup, groupData);
         break;
       }
-      UserData userAfter = allUsers.iterator().next();
-
+      Users allUsersAfter = app.db().users();
+      UserData userAfter = allUsersAfter.iterator().next();
       //assertThat(userWithoutGroup, equalTo(userWithoutGroupAfter.getGroups().size() + 1));
       assertThat(userAfter.getGroups().withAdded(groupData).size(), greaterThan(userBefore.getGroups().without(groupData).size()));
     }
@@ -72,7 +69,9 @@ public class AddUserToGroupTest extends TestBase {
       app.group().create(newGroup);
       app.goTo().homePage();
       app.user().addToGroup(randomUser, newGroup);
-      UserData randomUserAfter = allUsers.iterator().next(); // поиск любого контакта
+
+      Users allUsersAfter = app.db().users();
+      UserData randomUserAfter = allUsersAfter.iterator().next();
 
       //assertThat(randomUserAfter.getGroups().withAdded(newGroup).size() , equalTo(randomUser.getGroups().withAdded(newGroup).size()));
       assertThat(randomUserAfter.getGroups().withAdded(newGroup).size(), greaterThan(randomUser.getGroups().without(newGroup).size()));

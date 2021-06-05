@@ -35,7 +35,7 @@ public class RemoveUserFromGroupTest extends TestBase {
   @Test //(enabled = false)  Для второго теста реализуйте поиск такого контакта, который добавлен в группу.
   // А если в приложении нет контактов, добавленных в группы, то в таком случае предварительно добавляйте любой контакт в любую группу.
   public void testRemoveUserFromGroup() throws Exception {
-    Users allUsers = app.db().users();// список контактов
+    Users allUsersBefore = app.db().users();// список контактов
     Groups allGroups = app.db().groups();// список групп
 
     UserData userWithGroup = null;
@@ -46,10 +46,14 @@ public class RemoveUserFromGroupTest extends TestBase {
       groupData = iterator.next();
       //UserData userBefore = allUsers.iterator().next();
       //поиск такого контакта, который добавлен в группу и его удаление
-      userWithGroup = app.user().findUserWithGroup(allUsers, groupData);
+      userWithGroup = app.user().findUserWithGroup(allUsersBefore, groupData);
       if (userWithGroup != null) {
         app.user().deleteFromGroup(userWithGroup, groupData);
-        UserData userAfter = allUsers.iterator().next();
+        Users allUsersAfter = app.db().users();
+        UserData userAfter = allUsersAfter.iterator().next();
+//        assertThat(allUsersAfter, equalTo(
+//                allUsersBefore.withAdded(userWithGroup.withId(allUsersAfter.stream().mapToInt((u) -> u.getId()).max().getAsInt()))));
+
         assertThat(userAfter.getGroups().size(), equalTo(userWithGroup.getGroups().size() - 1));
         break;
 
@@ -57,11 +61,13 @@ public class RemoveUserFromGroupTest extends TestBase {
     }
     //если в приложении нет контактов, добавленных в группы, то в таком случае предварительно добавляйте любой контакт в любую группу.
     if (userWithGroup == null) {
+      Users allUsers = app.db().users();// список контактов
       UserData randomUser = allUsers.iterator().next(); // поиск любого контакта
       GroupData randomGroup = allGroups.iterator().next(); // поиск любой группы
       app.goTo().homePage();
       app.user().addToGroup(randomUser, randomGroup);
-      UserData userAfter = allUsers.iterator().next();
+      Users allUsersAfter = app.db().users();
+      UserData userAfter = allUsersAfter.iterator().next();
       assertThat(userAfter.getGroups().size(), equalTo(randomUser.getGroups().size() + 1));
     }
 
