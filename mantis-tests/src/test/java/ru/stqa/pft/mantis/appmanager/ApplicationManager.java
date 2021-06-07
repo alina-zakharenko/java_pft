@@ -11,12 +11,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.MatchResult;
 
 public class ApplicationManager {
 
   private final Properties properties;
   private WebDriver wd;
 
+  private  RegistrationHelper registrationHelper;
   private final String browser;
 //  private RegistrationHelper registrationHelper;
 //  private FtpHelper ftp;
@@ -46,12 +48,12 @@ public class ApplicationManager {
     return properties.getProperty(key);
   }
 
-//  public RegistrationHelper registration() {
-//    if (registrationHelper == null) {
-//      registrationHelper = new RegistrationHelper(this);
-//    }
-//    return registrationHelper;
-//  }
+  public RegistrationHelper registration() {
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
+    }
+    return registrationHelper;
+  }
 
 //  public FtpHelper ftp() {
 //    if (ftp == null) {
@@ -74,6 +76,7 @@ public class ApplicationManager {
     }
     return wd;
   }
+
 
 //  public MailHelper mail() {
 //    if (mailHelper == null) {
