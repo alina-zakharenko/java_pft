@@ -18,12 +18,13 @@ public class ApplicationManager {
   private final Properties properties;
   private WebDriver wd;
 
-  private  RegistrationHelper registrationHelper;
+  private RegistrationHelper registrationHelper;
   private final String browser;
   private FtpHelper ftp;
   private MailHelper mailHelper;
+  private JamesHelper jamesHelper;
 
-  public ApplicationManager(String browser){
+  public ApplicationManager(String browser) {
     this.browser = browser;
     properties = new Properties();
   }
@@ -82,5 +83,12 @@ public class ApplicationManager {
       mailHelper = new MailHelper(this);
     }
     return mailHelper;
+  }
+
+  public JamesHelper james() {
+    if (jamesHelper == null) {
+      jamesHelper = new JamesHelper(this);
+    }
+    return jamesHelper;
   }
 }
