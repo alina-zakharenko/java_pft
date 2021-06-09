@@ -17,7 +17,7 @@ public class DbHelper {
 
   public DbHelper() {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure()
+            .configure() //hibernate.cfg.xml
             .build();
 
     sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
