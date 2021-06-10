@@ -264,4 +264,14 @@ public class UserData {
     return Objects.hash(id, firstname, lastname);
   }
 
+  public UserData ActionsWithGroup(GroupData modifyGroup, boolean b) {
+    if(b == true) {
+      groups.add(modifyGroup);
+    }
+    else {
+      groups.remove(modifyGroup);
+    }
+    return this;
+  }
+
 }

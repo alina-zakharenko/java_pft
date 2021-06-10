@@ -88,7 +88,7 @@ public class UserHelper extends HelperBase {
     return null;
   }
 
-  public boolean areAllUsersInAllGroups(Users users, Groups allGroups){
+  public boolean areAllUsersInAllGroups(Users users, Groups allGroups) {
     Iterator<UserData> iterator = users.iterator();
     while (iterator.hasNext()) {
       UserData nextUser = iterator.next();
@@ -100,24 +100,19 @@ public class UserHelper extends HelperBase {
   }
 
 
-
-
   private void addTo() {
     click(By.name("add"));
   }
 
-  public void deleteFromGroup(UserData user,GroupData group) {
-    deleteFrom();
-    userCash = null;
-  }
-
-  private void deleteFrom() {
-    click(By.tagName("select"));
-    wd.findElement(By.cssSelector("#right > select > option:nth-child(3)")).click();
-    click(By.xpath("//td/input"));
+  public void deleteFromGroup(UserData user) {
+    selectUserById(user.getId());
     click(By.name("remove"));
-
   }
+
+  public void selectGroup(GroupData groupsList) {
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText(groupsList.getName());
+  }
+
 
   public void editUser(int index) {
     wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
@@ -175,7 +170,7 @@ public class UserHelper extends HelperBase {
     type(By.name("home"), userData.getHomePhone());
     type(By.name("mobile"), userData.getMobilePhone());
     type(By.name("work"), userData.getWorkPhone());
-    attach(By.name("photo"), userData.getPhoto());
+    // attach(By.name("photo"), userData.getPhoto());
     if (creation) {
       if (userData.getGroups().size() > 0) {
         Assert.assertTrue(userData.getGroups().size() == 1);
@@ -188,25 +183,6 @@ public class UserHelper extends HelperBase {
 
 
   private Users userCash = null;
-
-
-//  public Users all() {
-//    if (userCash != null) {
-//      return new Users(userCash);
-//    }
-//    userCash = new Users();  //создаем список, который будет заполняться
-//    List<WebElement> rows = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
-//    for (WebElement row : rows) {
-//      List<WebElement> cells = row.findElements(By.tagName("td"));
-//      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
-//      String lastname = cells.get(1).getText();
-//      String firstname = cells.get(2).getText();
-//      String[] phones = cells.get(5).getText().split("\n");
-//      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
-//              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
-//    }
-//    return userCash;
-//  }
 
   public Users all() {
     if (userCash != null) {
@@ -269,64 +245,6 @@ public class UserHelper extends HelperBase {
 //    checkbox.click();
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
-
-//to be removed
-
-//
-//  private void typeUserData(By locator, String text) {
-//    wd.findElement(locator).click();
-//    wd.findElement(locator).clear();
-//    wd.findElement(locator).sendKeys(text);
-//  }
-
-
-  //  public void getCompany(UserData userData) {
-//    type(By.name("company"), userData.getCompany());
-//  }
-//
-//  public boolean isThereAnUser() {
-//    return isElementPresent(By.name("selected[]"));
-//  }
-//
-
-//    public void changeUserInfo(UserData userData) {
-//    getCompany(userData);
-//    updateData();
-//  }
-
-
-  //  public Users all() {
-//    if (userCash != null) {
-//      return new Users(userCash);
-//    }
-//    userCash = new Users();  //создаем список, который будет заполняться
-//    List<WebElement> elements = wd.findElements(By.name("entry")); // список объкетов типа WebElement - найти все элементы с именем entry
-//    for (WebElement element : elements) {
-//      element.findElements(By.tagName("td")); //переменная element пробегает по всем cells
-//      String firstname = element.findElement(By.xpath(".//td[3]")).getText();
-//      String lastname = element.findElement(By.xpath(".//td[2]")).getText();
-//      //int id = Integer.parseInt(element.findElement(By.cssSelector("[name='entry']>.center>input")).getAttribute("value"));
-//      int id = Integer.parseInt(element.findElement(By.xpath(".//td/input")).getAttribute("value"));// передается в конструктор и используется при сравнении
-//      userCash.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
-//    }
-//    return new Users(userCash);
-//  }
-
-
-//  public Set<UserData> all() {
-//    Set<UserData> users = new HashSet<>();
-//    List<WebElement> rows = wd.findElements(By.name("entry"));
-//    for (WebElement row : rows) {
-//      List<WebElement> cells = row.findElements(By.tagName("td"));
-//      int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
-//      String lastname = cells.get(1).getText();
-//      String firstname = cells.get(2).getText();
-//      String[] phones = cells.get(5).getText().split("\n");
-//      users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname)
-//              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
-//    }
-//    return users;
-//  }
 
 
 }

@@ -1,17 +1,16 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.*;
 
 import java.io.File;
-import java.util.Iterator;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 
 public class AddUserToGroupTest extends TestBase {
+
+  int maxId;
 
   @BeforeMethod
   public void ensurePreconditionsUsers() {
@@ -34,47 +33,47 @@ public class AddUserToGroupTest extends TestBase {
   }
 
   @Test //(enabled = false)
-  /*
-   * 1. найти контакт, который не добавлен в группу
-   * 1а. если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создавайте новую группу
-   * 2. добавить контакт в группу
-   * */
   public void testAddUserToGroup() throws Exception {
-    Users allUsers = app.db().users();// список контактов
-    Groups allGroups = app.db().groups();// список групп
+    //группа, в которую добаляем контакт
+    GroupData targetGroup = app.db().groups().iterator().next();
 
-//    GroupData randomGroup = allGroups.iterator().next(); // поиск любой группы
-    UserData userWithoutGroup = null;
-    UserData userBefore = allUsers.iterator().next();
-    GroupData groupData;
+    // получаем список всех контактов
+    Users allUsersBefore = app.db().users();
+    int i = 0; //number of users
 
-    for (Iterator<GroupData> iterator = allGroups.iterator(); iterator.hasNext(); ) {
-      groupData = iterator.next();
-      //поиск такого контакта, который не добавлен в группу
-      userWithoutGroup = app.user().findUserWithoutGroup(allUsers, groupData);
-      if (userWithoutGroup != null) { //контакт без группы существует
-        app.user().addToGroup(userWithoutGroup, groupData);
+    // находим контакт, который не добавлен в группу
+    UserData modifiedContact = new UserData();
+    for (UserData userBefore : allUsersBefore) {
+      if (userBefore.getGroups().size() == 0) {
+        modifiedContact = userBefore;
+        app.user().addToGroup(modifiedContact, targetGroup);
         break;
       }
-      Users allUsersAfter = app.db().users();
-      UserData userAfter = allUsersAfter.iterator().next();
-      //assertThat(userWithoutGroup, equalTo(userWithoutGroupAfter.getGroups().size() + 1));
-      assertThat(userAfter.getGroups().withAdded(groupData).size(), greaterThan(userBefore.getGroups().without(groupData).size()));
-    }
-    if (userWithoutGroup == null) {
-      //то в таком случае предварительно создавайте новую группу
-      UserData randomUser = allUsers.iterator().next(); // поиск любого контакта
-      GroupData newGroup = new GroupData().withName("New Test Group 2");
-      app.goTo().groupPage();
-      app.group().create(newGroup);
-      app.goTo().homePage();
-      app.user().addToGroup(randomUser, newGroup);
+      i += 1; //number of users
 
-      Users allUsersAfter = app.db().users();
-      UserData randomUserAfter = allUsersAfter.iterator().next();
-
-      //assertThat(randomUserAfter.getGroups().withAdded(newGroup).size() , equalTo(randomUser.getGroups().withAdded(newGroup).size()));
-      assertThat(randomUserAfter.getGroups().withAdded(newGroup).size(), greaterThan(randomUser.getGroups().without(newGroup).size()));
+      // если в приложении уже все контакты добавлены во все группы, то в таком случае предварительно создаем новый контакт
+      if (i == allUsersBefore.size()) {
+        app.goTo().homePage();
+        UserData newUser = new UserData().withFirstname("Test User");
+        app.user().create(newUser);
+        app.goTo().homePage();
+        // добавление контакта в группу
+        Users allUsersAfter = app.db().users();
+        for (UserData userAfter : allUsersAfter) {
+          if (userAfter.getId() > maxId) {
+            modifiedContact = userAfter;
+            app.goTo().homePage();
+            app.user().addToGroup(modifiedContact, targetGroup);
+          }
+        }
+      }
     }
+    Groups groupBefore = modifiedContact.ActionsWithGroup(targetGroup, true).getGroups();
+
+    // Проверяем группы именного того контакта, который мы добавляем в группу или удаляем из группы.
+    Users allUsersAfter = app.db().users();
+    int userId = modifiedContact.getId();
+    Groups newGroupsList = allUsersAfter.stream().filter(u -> u.getId() == userId).findFirst().get().getGroups();
+    MatcherAssert.assertThat(groupBefore, CoreMatchers.equalTo(newGroupsList));
   }
 }
