@@ -21,10 +21,10 @@ public class SoapTests extends TestBase {
     for (Project project : projects) {
       System.out.println("Названия проектов: " + project.getName());
     }
- }
+  }
 
   @Test
-  public void testCreateIssue() throws MalformedURLException, ServiceException, RemoteException{
+  public void testCreateIssue() throws MalformedURLException, ServiceException, RemoteException {
     Set<Project> projects = app.soap().getProjects(); //получаем множество projects
 
     Issue issue = new Issue().withSummary("Test issue")
@@ -39,6 +39,9 @@ public class SoapTests extends TestBase {
 
   @Test
   public void testIsIssueOpen() throws Exception {
+    //skipIfNotFixed(issue.getId());
+    skipIfNotFixed(0000001);
+
     Set<Project> projects = app.soap().getProjects();
 
     Issue issue = new Issue().withSummary("Test issue")
@@ -46,7 +49,7 @@ public class SoapTests extends TestBase {
             .withProject(projects.iterator().next());
 
     Issue created = app.soap().addIssue(issue);
-
+    
     assertEquals(issue.getSummary(), created.getSummary());
 
   }
