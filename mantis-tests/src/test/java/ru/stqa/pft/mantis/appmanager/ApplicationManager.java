@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
 
 public class ApplicationManager {
 
@@ -23,6 +22,8 @@ public class ApplicationManager {
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
+  private UserManager userManager;
+  private DbHelper dbHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -32,6 +33,7 @@ public class ApplicationManager {
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+    dbHelper = new DbHelper();
   }
 
   public HttpSession newSession() {
@@ -44,22 +46,8 @@ public class ApplicationManager {
     }
   }
 
-  public String getProperty(String key) {
+  public String getProperty(String key) { // в качестве параметра имя того свойства, которое надо извлечь
     return properties.getProperty(key);
-  }
-
-  public RegistrationHelper registration() {
-    if (registrationHelper == null) {
-      registrationHelper = new RegistrationHelper(this);
-    }
-    return registrationHelper;
-  }
-
-  public FtpHelper ftp() {
-    if (ftp == null) {
-      ftp = new FtpHelper(this);
-    }
-    return ftp;
   }
 
   public WebDriver getDriver() {
@@ -78,6 +66,21 @@ public class ApplicationManager {
   }
 
 
+  public FtpHelper ftp() {
+    if (ftp == null) {
+      ftp = new FtpHelper(this);
+    }
+    return ftp;
+  }
+
+  public RegistrationHelper registration() {
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
+    }
+    return registrationHelper;
+  }
+
+
   public MailHelper mail() {
     if (mailHelper == null) {
       mailHelper = new MailHelper(this);
@@ -91,4 +94,25 @@ public class ApplicationManager {
     }
     return jamesHelper;
   }
+
+
+  public UserManager manageUser() {
+    if (userManager == null) {
+      userManager = new UserManager(this);
+    }
+    return userManager;
+  }
+
+  public DbHelper db() {
+    return dbHelper;
+  }
+
+
+//  public ManagePageHelper managePage() {
+//    if (managePageHelper == null) {
+//      managePageHelper = new ManagePageHelper(this);
+//    }
+//    return managePageHelper;
+//  }
+
 }

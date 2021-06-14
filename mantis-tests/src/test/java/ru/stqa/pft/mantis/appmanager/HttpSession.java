@@ -22,20 +22,21 @@ public class HttpSession {
 
   public HttpSession(ApplicationManager app) {
     this.app = app;
-    httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
+    httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build(); //fluent IF
   }
 
   public boolean login(String username, String password) throws IOException {
-    HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php");
-    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php"); //создается пустой запрос
+    List<NameValuePair> params = new ArrayList<NameValuePair>(); //формирование параметров
     params.add(new BasicNameValuePair("username", username));
     params.add(new BasicNameValuePair("password", password));
     params.add(new BasicNameValuePair("secure_session", "on"));
     params.add(new BasicNameValuePair("return", "index.php"));
-    post.setEntity(new UrlEncodedFormEntity(params));
-    CloseableHttpResponse response = httpClient.execute(post);
-    String body = geTextFrom(response);
-    return body.contains(String.format("<a href=\"/mantisbt-2.25.1/account_page.php\">%s</a>", username));
+    post.setEntity(new UrlEncodedFormEntity(params)); //упакование параметров
+    CloseableHttpResponse response = httpClient.execute(post);//отправка запроса
+    String body = geTextFrom(response);// анализ ответа - проверяем текст
+    //return body.contains(String.format("<a href=\"/mantisbt-2.25.1/account_page.php\">%s</a>", username));
+    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
   }
 
   private String geTextFrom(CloseableHttpResponse response) throws IOException {
@@ -50,6 +51,8 @@ public class HttpSession {
     HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/index.php");
     CloseableHttpResponse response = httpClient.execute(get);
     String body = geTextFrom(response);
-    return body.contains(String.format("<span class=\"label hidden-xs label-default arrowed\">%s</span>", username));
+    //return body.contains(String.format("<span class=\"label hidden-xs label-default arrowed\">%s</span>", username));
+    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
   }
+
 }
