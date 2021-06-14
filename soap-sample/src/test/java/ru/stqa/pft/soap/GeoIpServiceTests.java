@@ -12,4 +12,10 @@ public class GeoIpServiceTests {
     String ipLocation = new GeoIPService().getGeoIPServiceSoap12().getIpLocation("93.100.46.23");
     assertEquals(ipLocation, "<GeoIP><Country>RU</Country><State>66</State></GeoIP>");
   }
+
+  @Test
+  public void testInvalidIp(){
+    String ipLocation = new GeoIPService().getGeoIPServiceSoap12().getIpLocation("93.100.46.XXX");
+    assertEquals(ipLocation, "<GeoIP><Country>RU</Country><State>66</State></GeoIP>");
+  }
 }
