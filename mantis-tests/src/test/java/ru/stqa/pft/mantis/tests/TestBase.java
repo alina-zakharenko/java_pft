@@ -40,7 +40,8 @@ public class TestBase {
    */
   public boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
     MantisConnectPortType mcpt = new MantisConnectLocator().
-            getMantisConnectPort(new URL("http://localhost/mantisbt-2.25.1/api/soap/mantisconnect.php"));
+            //getMantisConnectPort(new URL("http://localhost/mantisbt-2.25.1/api/soap/mantisconnect.php"));
+    getMantisConnectPort(new URL("web.baseUrl"+"/api/soap/mantisconnect.php"));
     IssueData fixedIssueData = mcpt.mc_issue_get("administrator", "root", BigInteger.valueOf(issueId));
     if (fixedIssueData.getResolution().getName().equals("fixed")) {
       return false;
