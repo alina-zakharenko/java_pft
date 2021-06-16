@@ -25,7 +25,7 @@ public class TestBase {
 
 
   protected static final ApplicationManager app
-          = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME)); //глобальная переменная
+          = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX)); //глобальная переменная
 
   //BeforeMethod(alwaysRun = true) //метод инициализации фикстуры
   @BeforeSuite
