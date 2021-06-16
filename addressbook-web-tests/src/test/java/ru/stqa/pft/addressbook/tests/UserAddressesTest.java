@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import net.bytebuddy.jar.asm.ClassTooLargeException;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;

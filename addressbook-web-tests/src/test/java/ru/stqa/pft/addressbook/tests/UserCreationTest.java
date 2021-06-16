@@ -11,9 +11,11 @@ import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.TestBase;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
-import sun.util.locale.provider.SPILocaleProviderAdapter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,8 +32,8 @@ public class UserCreationTest extends TestBase {
     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/users.csv")));
     String line = reader.readLine();
     while (line != null) {
-      String [] split = line.split(";");
-      list.add(new Object[] {new UserData()
+      String[] split = line.split(";");
+      list.add(new Object[]{new UserData()
               .withFirstname(split[0]).withLastname(split[1])
               .withEmail(split[2]).withCompany(split[3])
               //.withGroup(split[4])
@@ -78,7 +80,6 @@ public class UserCreationTest extends TestBase {
       return users.stream().map((u) -> new Object[]{u}).collect(Collectors.toList()).iterator();
     }
   }
-
 
 
   @Test(dataProvider = "validUsersFromJson")
