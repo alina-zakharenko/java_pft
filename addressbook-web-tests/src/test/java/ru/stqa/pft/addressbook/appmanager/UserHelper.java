@@ -10,6 +10,7 @@ import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.UserData;
 import ru.stqa.pft.addressbook.model.Users;
 
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -128,13 +129,13 @@ public class UserHelper extends HelperBase {
 
 
   //delete user
-  public void delete(int index) {
+  public void delete(int index) throws InterruptedException {
     selectUser(index);
     deleteUser();
   }
 
 
-  public void delete(UserData user) {
+  public void delete(UserData user) throws InterruptedException {
     selectUserById(user.getId());
     deleteUser();
     userCash = null;
@@ -148,9 +149,10 @@ public class UserHelper extends HelperBase {
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
-  public void deleteUser() {
+  public void deleteUser() throws InterruptedException {
     clickDeleteUserButton();
     getAccept();
+    Thread.sleep(1000);
   }
 
   public void clickDeleteUserButton() {
