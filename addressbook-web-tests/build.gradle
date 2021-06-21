@@ -4,6 +4,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    agent
+}
+
 dependencies {
     compile 'org.testng:testng:7.4.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.0.0-beta-3'
@@ -14,6 +18,8 @@ dependencies {
     implementation 'com.tersesystems.logback:logback-classic:0.16.2'
     implementation 'mysql:mysql-connector-java:8.0.25'
     implementation 'org.hibernate:hibernate-tools-maven-plugin:5.4.31.Final'
+    agent "org.aspectj:aspectjweaver:1.8.0"
+    implementation "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
 }
 
 task testGroups(type: Test) {
@@ -31,6 +37,11 @@ task testGroups(type: Test) {
     }
 }
 
+
+testGroups.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
+
 task testUsers(type: Test) {
     useTestNG {
         suites 'src/test/resources/testng-users.xml'
@@ -43,5 +54,10 @@ task testUsers(type: Test) {
     }
     if (project.hasProperty('verifyUI')) {
         systemProperty('verifyUI', "${verifyUI}")
+    }
+
+
+    testUsers.doFirst {
+        jvmArgs "-javaagent:${configurations.agent.singleFile}"
     }
 }
