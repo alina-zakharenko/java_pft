@@ -21,6 +21,24 @@ dependencies {
     agent "org.aspectj:aspectjweaver:1.8.0"
     implementation "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
     implementation 'org.robotframework:robotframework:4.0.3'
+    implementation 'io.spring.ge.conventions:gradle-enterprise-conventions-gradle-plugin:0.0.7'
+    implementation 'info.cukes:cucumber-java:1.2.6'
+    implementation 'info.cukes:cucumber-testng:1.2.6'
+}
+
+task testGroups(type: Test) {
+    useTestNG {
+        suites 'src/test/resources/testng-groups.xml'
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty('browser', "${browser}")
+    }
+    if (project.hasProperty('target')) {
+        systemProperty('target', "${target}")
+    }
+    if (project.hasProperty('verifyUI')) {
+        systemProperty('verifyUI', "${verifyUI}")
+    }
 }
 
 task testGroups(type: Test) {
@@ -66,6 +84,6 @@ task testUsers(type: Test) {
 task robotFramework(type: JavaExec){
     main = 'org.robotframework.RobotFramework'
     classpath = sourceSets.test.runtimeClasspath
-    args '--outputdir', 'buid/robotFramework-report'
+    args '--outputdir', 'build/robotFramework-report'
     args 'src/test/resources/robotFramework'
 }
