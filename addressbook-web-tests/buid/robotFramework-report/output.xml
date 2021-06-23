@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generator="Robot 4.0.3 (Jython 2.7.2 on java1.8.0_282)" schemaversion="2" generated="20210623 16:54:01.470">
+<suite source="C:\pft\java_pft\addressbook-web-tests\src\test\resources\robotFramework" name="robotFramework" id="s1">
+<suite source="C:\pft\java_pft\addressbook-web-tests\src\test\resources\robotFramework\groups.robot" name="Groups" id="s1-s1">
+<kw type="SETUP" library="ru.stqa.pft.addressbook.robotFramework.AddressbookKeywords" name="Init Application Manager">
+<msg level="INFO" timestamp="20210623 16:54:19.065">Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+1624456448078	geckodriver	INFO	Listening on 127.0.0.1:15455
+1624456450431	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "0" "-foreground" "-no-remote" "-profile" "C:\\Users\\azakhare\\AppData\\Local\\Temp\\rust_mozprofile7zRCAI"
+1624456451437	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\azakhare\\AppData\\Local\\Temp\\rust_mozprofile7zRCAI\\search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:56955/devtools/browser/14fcf570-2464-4ae5-b8f3-f26215451421
+1624456455806	Marionette	INFO	Listening on port 62400
+1624456456296	Marionette	WARN	TLS certificate errors will be ignored for this session
+org.openqa.selenium.remote.ProtocolHandshake INFO Detected dialect: W3C</msg>
+<status endtime="20210623 16:54:19.077" starttime="20210623 16:54:02.289" status="PASS"/>
+</kw>
+<test name="Can Create Group With Valid Data" id="s1-s1-t1">
+<kw library="ru.stqa.pft.addressbook.robotFramework.AddressbookKeywords" name="Get Group Count">
+<var>${old_count}</var>
+<msg level="INFO" timestamp="20210623 16:54:19.544">${old_count} = 32</msg>
+<status endtime="20210623 16:54:19.546" starttime="20210623 16:54:19.095" status="PASS"/>
+</kw>
+<kw library="ru.stqa.pft.addressbook.robotFramework.AddressbookKeywords" name="Create Group">
+<arg>test name</arg>
+<arg>test header</arg>
+<arg>test footer</arg>
+<status endtime="20210623 16:54:21.888" starttime="20210623 16:54:19.547" status="PASS"/>
+</kw>
+<kw library="ru.stqa.pft.addressbook.robotFramework.AddressbookKeywords" name="Get Group Count">
+<var>${new_count}</var>
+<msg level="INFO" timestamp="20210623 16:54:22.300">${new_count} = 33</msg>
+<status endtime="20210623 16:54:22.302" starttime="20210623 16:54:21.897" status="PASS"/>
+</kw>
+<kw library="BuiltIn" name="Evaluate">
+<var>${expected_count}</var>
+<arg>${old_count} + 1</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg level="INFO" timestamp="20210623 16:54:22.370">${expected_count} = 33</msg>
+<status endtime="20210623 16:54:22.378" starttime="20210623 16:54:22.310" status="PASS"/>
+</kw>
+<kw library="BuiltIn" name="Should Be Equal As Integers">
+<arg>${new_count}</arg>
+<arg>${expected_count}</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status endtime="20210623 16:54:22.450" starttime="20210623 16:54:22.381" status="PASS"/>
+</kw>
+<status endtime="20210623 16:54:22.453" starttime="20210623 16:54:19.084" status="PASS"/>
+</test>
+<kw type="TEARDOWN" library="ru.stqa.pft.addressbook.robotFramework.AddressbookKeywords" name="Stop Application Manager">
+<status endtime="20210623 16:54:24.193" starttime="20210623 16:54:22.481" status="PASS"/>
+</kw>
+<status endtime="20210623 16:54:24.195" starttime="20210623 16:54:02.161" status="PASS"/>
+</suite>
+<status endtime="20210623 16:54:24.228" starttime="20210623 16:54:01.494" status="PASS"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" skip="0" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" skip="0" fail="0" name="robotFramework" id="s1">robotFramework</stat>
+<stat pass="1" skip="0" fail="0" name="Groups" id="s1-s1">robotFramework.Groups</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
