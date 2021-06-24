@@ -1,4 +1,21 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'maven'
+    id 'io.qameta.allure' version '2.8.1'
+}
+
+allure {
+    autoconfigure = true
+    aspectjweaver = true
+    version = "2.13.6"
+    aspectjVersion = "1.9.6"
+
+    clean = true
+
+    useTestNG {
+        version = "2.13.6"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -24,6 +41,7 @@ dependencies {
     implementation 'io.spring.ge.conventions:gradle-enterprise-conventions-gradle-plugin:0.0.7'
     implementation 'info.cukes:cucumber-java:1.2.6'
     implementation 'info.cukes:cucumber-testng:1.2.6'
+    implementation 'io.qameta.allure:allure-java-commons:2.13.6'
 }
 
 task testGroups(type: Test) {
